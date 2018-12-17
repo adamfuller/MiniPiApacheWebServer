@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+    <title>Blocks</title>
+    <meta name="viewport" content="width=device-width, height=device-height"/>
+    <link rel="stylesheet" type="text/css" href="blocks.css"/>
+    
+    <body>
+        <!- dropdown menu class ->
+        <div class="dropdown" id="dropdown">
+        <button class="dropbtn" onclick=" location.href='index.html' ">Home</button>
+        <div class="dropdown-content">
+            <!- contents of dropdown menu (they're hyperlinks) ->
+            <a href="lights.html">Lights</a>
+            <a href="radio.html">Radio</a>
+            <a href="files.html">Files</a>
+            <a href="nothing.html">Games</a>
+        </div>
+        </div>
+        
+        <div align="center">
+            <div style="display:inline">
+                <h4 id="player1Stats">Player 1- Speed: 0 Score: 0</h4>
+                <h4 id="player2Stats">Player 2- Speed: 0 Score: 0</h4>
+            </div>
+        <div>
+        <canvas id="gameCanvas" width="400" height="400"></canvas>
+        </div>
+        <script>
+            window.onload=function() {
+            canvas=document.getElementById("gameCanvas");
+            ctx=canvas.getContext("2d");
+            document.addEventListener("keydown",keyPush);
+            document.addEventListener("keyup", keyPush);
+            setInterval(blockGame,66);
+          }
+          </script>
+          <script src="blocks.js"></script>
+        <button id="toggleHints">Show Hints</button>
+        <script>
+            document.getElementById("toggleHints").onclick = function(){
+                document.getElementById("hints").style.display="block";
+                document.getElementById("toggleHints").style.display="none";
+            }
+        </script>
+        <div id="hints" style="display:none">
+        <h6 style="color:grey">Clear score: 0</h6>
+        <h6 style="color:grey">Player 1 shoot: alt/option</h6>
+        <h6 style="color:grey">Player 1 Super Shot: /</h6>
+        <h6 style="color:grey">Player 2 shoot: f</h6>
+        <h6 style="color:grey">Player 2 Super Shot: e</h6>
+        <h5 style="color:grey">Player 1 move: arrow keys</h6>
+        <h6 style="color:grey">Player 2 move: WASD</h6>
+        </div>
+    </body>
+    <script>
+        if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+            document.getElementById("dropdown").style.display="none";
+            //document.getElementById("mobile-menu").style.display="inline";
+
+        }
+    </script>
+</html>

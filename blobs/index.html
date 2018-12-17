@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Blobs</title>
+    <meta name="viewport" content="width=device-width, height=device-height">
+    <div align="center">
+        <canvas id="blobCanvas">
+    </div>
+    <script src="blobs.js?v=rndstr=<%= getRandomStr() %>"></script>
+    <script src="../ext/jquery.js"></script>
+</head>
+<body>
+    <script>
+        window.onbeforeunload = function(evt){
+            //paused = true;
+            //return ("Are you sure you want to leave?");
+            removeScore(player)
+        }
+        var frameRate=1000/60
+        setup();
+        
+    </script>
+</body>
+</html>

@@ -1,3 +1,3 @@
 <?php
-echo exec("git pull");
+echo "hello world 3.14";
 ?>

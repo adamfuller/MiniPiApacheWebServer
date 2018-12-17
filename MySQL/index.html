@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<!consider adding values to a text input box>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, height=device-height">
+        <title>MySQL Interface</title>
+
+        <!imported javascript>
+        <script src="../ext/jquery.js"></script>
+
+        <! javascript functions>
+        <script type="text/javascript">
+
+            function clearChildNodes(node){
+                while (document.getElementById(node).firstChild){
+                    document.getElementById(node).removeChild(document.getElementById(node).firstChild);
+                }
+            };
+
+            function addInput(label, value, n){
+                var l = document.createElement("label"+n);
+                l.setAttribute("for", 'input'+n);
+                l.innerHTML = label;
+                l.setAttribute("id", "label"+n);
+                var i = document.createElement("input");
+                i.setAttribute("type", "text");
+                i.setAttribute("value", value);
+                i.setAttribute("id",'input'+n);
+                var divider = document.getElementById("resultsDiv");
+                divider.appendChild(l);
+                divider.appendChild(i);
+
+            };
+
+            function update(r,g,n){
+                var labels = []
+                var inputs = []
+                var stmt = ""
+                var key = '';
+                for (var q=(g-n+1);q<=g;q++){
+                    //console.log("label"+q);
+                    labels.push(document.getElementById("label"+q).innerHTML);
+                    //console.log("input"+q);
+                    inputs.push(document.getElementById("input"+q).value);
+                }
+                key = labels[0] + "=" + inputs[0];
+                for (var p=1;p<labels.length;p++){
+                    stmt = stmt+ labels[p] + "="
+                    if (isNaN(inputs[p])) {
+                        stmt = stmt +"'"+inputs[p]+"'" ;
+                    } else {
+                        stmt = stmt + inputs[p];
+                    }
+                    if (p<labels.length-1){
+                        stmt+=","
+                    }
+                }
+                //console.log(stmt);
+                //console.log(key);
+
+                var ip=document.getElementById("ipInput").value;
+                var db=document.getElementById("dbInput").value;
+                var table=document.getElementById("tableInput").value;
+                var user=document.getElementById("userInput").value;
+                var psk=document.getElementById("pskInput").value;
+                $.ajax({
+                    type: "POST",
+                    data: "show=content",
+                    url: 'update.php?table='+table+"&IP="+ip+"&user="+user+"&psk="+psk+"&db="+db+"&s="+stmt+"&k="+key,
+                    success: function(result){
+
+                    }
+                })
+            }
+
+
+            function addUpdateButton(r, g, n){
+                
+                //
+                var b = document.createElement("button");
+                b.setAttribute("type", "button");
+                b.setAttribute("id", "button"+r);
+                var t = document.createTextNode("Update");
+                b.appendChild(t);
+                b.setAttribute("onclick",'update('+r+","+g+","+n+')');
+                var divider = document.getElementById("resultsDiv");
+                divider.appendChild(b);
+            }
+
+            function addBreak(){
+                var br = document.createElement("br");
+                var divider = document.getElementById("resultsDiv");
+                divider.appendChild(br);
+            }
+
+            function addInputFields(values){
+                var n = 0;
+                var r = 0;
+                var g = 0;
+                for (row in values){
+                    r+=1;
+                    n=0;
+                    for (items in values[row]){
+                        n+=1;
+                        g+=1;
+                        addInput(items, values[row][items], g);
+                    }
+                    addUpdateButton(r, g, n);
+                    addBreak();
+                }
+            }
+
+
+            function remove(ip, db, table, user, psk, key, value){
+                if (isNaN(Number(value))){
+                    value = "'"+value+"'";
+                }
+
+                $.ajax({
+                    type: "DELETE",
+                    cache: false,
+                    data: "show=content",
+                    url: 'delete.php?table='+table+"&IP="+ip+"&user="+user+"&psk="+psk+"&db="+db+"&key="+key+"&val="+value,
+                    success: function(result){
+                        //console.log(result);
+                    }
+                })
+            }
+
+            function refresh(ip, db, table, user, psk){
+                console.clear();
+                clearChildNodes("resultsDiv");
+                $.ajax({
+                type: "GET",
+                url: 'pull.php?table='+table+"&IP="+ip+"&user="+user+"&psk="+psk+"&db="+db,
+                dataType: 'json',
+                success: function(result){
+                    var query_results = result["query_results"];
+                    //addLabeledValues(query_results);
+                    addInputFields(query_results);
+                    //console.log(result);
+                }
+            });
+            }
+        </script>
+
+    </head>
+    <body align="center">
+        <! inputs >
+        <label for="ipInput">IP:</label>
+        <input type="text" id="ipInput" name="IP" value="localhost">
+    </br>
+        <label for="dbInput">Database:</label>
+        <input type="text" id="dbInput" name="DB" value="test1">
+    </br>
+        <label for="tableInput">Table:</label>
+        <input type="text" id="tableInput" name="Table" value="testTable5">
+    </br>
+        <label for="userInput">User:</label>
+        <input type="text" id="userInput" name="User" value="root">
+    </br>
+        <label for="pskInput">Password:</label>
+        <input type="text" id="pskInput" name="psk" value="">
+    </br>
+        <label for="keyInput">WHERE:</label>
+        <input type="text" id="keyInput" name="key" value="">
+        <label for="valInput">=</label>
+        <input type="text" id="valInput" name="val" value="">
+        <button id="remove">Remove</button>
+    </br>
+        <!refreshbutton>
+        <button id="refreshNode" >Refresh</button>
+
+        <! holder of result>
+        <div id="resultsDiv" >
+        </div>
+        <!javascript run on page load>
+        <script type="text/javascript">
+            document.getElementById("refreshNode").onclick = function(){
+                var ipInput=document.getElementById("ipInput").value;
+                var dbInput=document.getElementById("dbInput").value;
+                var tableInput=document.getElementById("tableInput").value;
+                var userInput=document.getElementById("userInput").value;
+                var pskInput=document.getElementById("pskInput").value;
+                refresh(ipInput,dbInput,tableInput,userInput,pskInput)
+            }
+            document.getElementById("remove").onclick = function(){
+                var ipInput=document.getElementById("ipInput").value;
+                var dbInput=document.getElementById("dbInput").value;
+                var tableInput=document.getElementById("tableInput").value;
+                var userInput=document.getElementById("userInput").value;
+                var pskInput=document.getElementById("pskInput").value;
+                var keyInput = document.getElementById("keyInput").value;
+                var valInput = document.getElementById("valInput").value;
+                remove(ipInput,dbInput,tableInput,userInput,pskInput,keyInput,valInput);
+            }
+            refresh(document.getElementById("ipInput").value, document.getElementById("dbInput").value, document.getElementById("tableInput").value, document.getElementById("userInput").value, document.getElementById("pskInput").value);
+            
+        </script>
+    </body>
+</html>

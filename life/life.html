@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Game of Life</title>
+        <meta name="viewport" content="width=device-width, height=device-height">
+        <div align="center">
+                <canvas id="lifeCanvas"></canvas>
+        </div>
+    </head>
+    <body>
+        <!Canvas element>
+        
+        
+
+        <!Imports life javascript file>
+        <div id="JS">
+        </div>
+        <script type="text/javascript">
+            var div = document.getElementById("JS");
+            var s = document.createElement("script");
+            s.type = "text/javascript"
+            s.src = "life.js?q="+Math.random();
+            div.appendChild(s);
+        </script>
+
+    </body>
+</html>

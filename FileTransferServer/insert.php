@@ -2,7 +2,7 @@
     // database settings
     // table open for any traffic/transfers
     var_dump($_REQUEST);
-    
+
     if (isset($_REQUEST['table']) && $_REQUEST['table'] != ''){
         $table = $_REQUEST['table'];
     } elseif (isset($_REQUEST['ex_ip']) && $_REQUEST['ex_ip'] != ''){
@@ -44,8 +44,12 @@
 
     // query sql statement
     $result = $db->query($sql);
+    if ($result){
+        echo "Succes";
+    } else {
+        echo "Failure";
+    }
     
     mysqli_close($db);
-    echo $result;
 ?>
 

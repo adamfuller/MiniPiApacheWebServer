@@ -1,4 +1,5 @@
 <?php
+    var_dump($_GET);
     // database settings
     // table open for any traffic/transfers
     if (isset($_GET['table']) && $_GET['table'] != ''){

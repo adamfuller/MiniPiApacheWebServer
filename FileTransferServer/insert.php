@@ -1,33 +1,33 @@
 <?php
     // database settings
     // table open for any traffic/transfers
-    if (isset($_GET['table']) && $_GET['table'] != ''){
-        $table = $_GET['table'];
-    } elseif (isset($_GET['ex_ip']) && $_GET['ex_ip'] != ''){
-        $table = $_GET['ex_ip'];
+    if (isset($_REQUEST['table']) && $_REQUEST['table'] != ''){
+        $table = $_REQUEST['table'];
+    } elseif (isset($_REQUEST['ex_ip']) && $_REQUEST['ex_ip'] != ''){
+        $table = $_REQUEST['ex_ip'];
     } else{
         $table = "open";
     }
 
-    if (isset($_GET['username'])){
-        $username = $_GET['username'];
+    if (isset($_REQUEST['username'])){
+        $username = $_REQUEST['username'];
     } else{
         die("No username");
     }
 
-    if (isset($_GET['ip'])){
-        $ip = $_GET['ip'];
+    if (isset($_REQUEST['ip'])){
+        $ip = $_REQUEST['ip'];
     } else{
         die("No ip");
     }
 
-    if (isset($_GET['active'])){
-        $active = $_GET['active'];
+    if (isset($_REQUEST['active'])){
+        $active = $_REQUEST['active'];
     } else{
         die("No active");
     }
 
-    $mask = $_GET['mask'] ?? "0";
+    $mask = $_REQUEST['mask'] ?? "0";
 
     // sql statement
     $sql = "INSERT INTO ".$table." (username, ip, active, mask) VALUES (".$username.", ".$ip.", ".$active.", ".$mask.")";

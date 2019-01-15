@@ -1,18 +1,18 @@
 <?php
     // database settings
     // table open for any traffic/transfers
-    if (isset($_GET['table']) && $_GET['table'] != ''){
-        $table = $_GET['table'];
-    } elseif (isset($_GET['ex_ip']) && $_GET['ex_ip'] != ''){
-        $table = $_GET['ex_ip'];
+    if (isset($_REQUEST['table']) && $_REQUEST['table'] != ''){
+        $table = $_REQUEST['table'];
+    } elseif (isset($_REQUEST['ex_ip']) && $_REQUEST['ex_ip'] != ''){
+        $table = $_REQUEST['ex_ip'];
     } else {
         $table = "open";
     }
 
 
     // sql statement
-    $labels = $_GET["s"];
-    $key = $_GET["k"];
+    $labels = $_REQUEST["s"];
+    $key = $_REQUEST["k"];
     $sql = "UPDATE ".$table." SET ".$labels." WHERE ".$key;
 
     // attempt to connect to database

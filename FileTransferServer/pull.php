@@ -26,7 +26,7 @@
     }
 
     // sql statement
-    $sql = "SELECT * from ". $table . $mods;
+    $sql = "SELECT * from ". $table . " where username = sample_username";
 
     // attempt to connect to database
     $db = new mysqli("localhost", "root", "JqFl8497__GcZ-P", "FileTransferServer");

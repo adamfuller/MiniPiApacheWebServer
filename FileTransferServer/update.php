@@ -1,10 +1,14 @@
 <?php
     // database settings
+    // table open for any traffic/transfers
     if (isset($_GET['table']) && $_GET['table'] != ''){
         $table = $_GET['table'];
-    }else{
+    } elseif (isset($_GET['ex_ip']) && $_GET['ex_ip'] != ''){
+        $table = $_GET['ex_ip'];
+    } else {
         $table = "open";
     }
+
 
     // sql statement
     $labels = $_GET["s"];
@@ -21,6 +25,5 @@
 
     // query sql statement
     $result = $db->query($sql);
-    
     
 ?>

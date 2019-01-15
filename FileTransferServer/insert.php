@@ -1,17 +1,40 @@
 <?php
     // database settings
+    // table open for any traffic/transfers
     if (isset($_GET['table']) && $_GET['table'] != ''){
         $table = $_GET['table'];
-    }else{
+    } elseif (isset($_GET['ex_ip']) && $_GET['ex_ip'] != ''){
+        $table = $_GET['ex_ip'];
+    } else{
         $table = "open";
     }
 
-    //$table = "testTable5";
+    if (isset($_GET['username']) && $_GET['username'] != ''){
+        $username = $_GET['username'];
+    } else{
+        die("No username");
+    }
+
+    if (isset($_GET['ip']) && $_GET['ip'] != ''){
+        $ip = $_GET['ip'];
+    } else{
+        die("No ip");
+    }
+
+    if (isset($_GET['active']) && $_GET['active'] != ''){
+        $active = $_GET['active'];
+    } else{
+        die("No active");
+    }
+
+    if (isset($_GET['mask']) && $_GET['mask'] != ''){
+        $mask = $_GET['mask'];
+    } else{
+        $mask = "0";
+    }
 
     // sql statement
-    $labels = $_GET["s"];
-    $key = $_GET["k"];
-    $sql = "INSERT INTO ".$table." (".$labels.") VALUES (".$key.")";
+    $sql = "INSERT INTO ".$table." (username, ip, active, mask) VALUES (".$username.", ".$ip.", ".$active.", ".$mask.")";
 
     // attempt to connect to database
     $db = new mysqli("localhost", "root", "JqFl8497__GcZ-P", "FileTransferServer");
@@ -25,4 +48,5 @@
     $result = $db->query($sql);
     
     mysqli_close($db);
+    echo "success";
 ?>

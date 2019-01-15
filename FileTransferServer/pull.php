@@ -8,9 +8,12 @@
     */
 
     // database settings
+    // table open for any traffic/transfers
     if (isset($_GET['table']) && $_GET['table'] != ''){
         $table = $_GET['table'];
-    }else{
+    } elseif (isset($_GET['ex_ip']) && $_GET['ex_ip'] != ''){
+        $table = $_GET['ex_ip'];
+    } else{
         $table = "open";
     }
 
@@ -39,6 +42,6 @@
         $rows['query_results'][] = $r;
     }
     echo json_encode($rows);
-    
+
     mysqli_close($db);
 ?>

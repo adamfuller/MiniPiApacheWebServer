@@ -25,7 +25,7 @@
     }
 
     // sql statement
-    $sql = "SELECT * from ? ?";
+    $sql = $mods != "" ? "SELECT * from $table ?" : "SELECT * FROM $table";
 
     // attempt to connect to database
     $db = new mysqli("localhost", "root", "JqFl8497__GcZ-P", "FileTransferServer");
@@ -39,7 +39,7 @@
     if (!$statement){
         die("failure");
     }
-    $statement->bind_param("ss", $table, $mods);
+    $statement->bind_param("s", $mods);
     
     $statement->execute();
     $statement->bind_result($result);

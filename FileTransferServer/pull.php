@@ -20,6 +20,7 @@
     // get any special modifications to the request
     if (isset($_REQUEST['mods'])){
         $mods = $_REQUEST['mods'];
+        echo $mods;
     }else{
         $mods = "";
     }

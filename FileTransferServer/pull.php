@@ -41,8 +41,6 @@
     }
     if ($mods != ""){
         $statement->bind_param("s", $mods);
-    } else {
-        $statement->bind_param("s", $mods);
     }
     
     $statement->execute();

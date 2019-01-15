@@ -47,7 +47,7 @@
     if ($result){
         echo "Succes";
     } else {
-        echo "Failure";
+        echo $db->error;
     }
     
     mysqli_close($db);

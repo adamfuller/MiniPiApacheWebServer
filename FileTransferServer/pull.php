@@ -19,7 +19,8 @@
 
     // get any special modifications to the request
     if (isset($_REQUEST['mods']) && $_REQUEST['mods'] != ''){
-        $mods = $_REQUEST['mods'];
+        $mods = preg_replace('/\s+/', ' ', $_REQUEST['mods']);
+        $mods = " $mods";
     }else{
         $mods = "";
     }

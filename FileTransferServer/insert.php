@@ -44,5 +44,5 @@
     $result = $db->query($sql);
     
     mysqli_close($db);
-    echo "success";
+    echo $result;
 ?>

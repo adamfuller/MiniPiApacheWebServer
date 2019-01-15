@@ -24,12 +24,12 @@
     }
 
     if (isset($_REQUEST['active'])){
-        $active = $_REQUEST['active'];
+        $active = intval($_REQUEST['active']);
     } else{
         die("No active");
     }
 
-    $mask = $_REQUEST['mask'] ?? "0";
+    $mask = intval($_REQUEST['mask']) ?? 0;
 
     // sql statement
     $sql = "INSERT INTO ".$table." (username, ip, active, mask) VALUES (".$username.", ".$ip.", ".$active.", ".$mask.")";
@@ -42,8 +42,13 @@
         die("Connection failed");
     }
 
+
+    $statement = $db->prepare("INSERT INTO ".$table." (username, ip, active, mask) VALUES (?, ?, ?, ?)");
+    $statement->bind_param("ssii", $username, $ip, $active, $mask);
+    
+    $result = $statement->execute();
+
     // query sql statement
-    $result = $db->query($sql);
     if ($result){
         echo "Succes";
     } else {

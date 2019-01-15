@@ -1,6 +1,8 @@
 <?php
     // database settings
     // table open for any traffic/transfers
+    var_dump($_REQUEST);
+    
     if (isset($_REQUEST['table']) && $_REQUEST['table'] != ''){
         $table = $_REQUEST['table'];
     } elseif (isset($_REQUEST['ex_ip']) && $_REQUEST['ex_ip'] != ''){

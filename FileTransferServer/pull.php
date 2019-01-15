@@ -36,6 +36,9 @@
     }
 
     $statement = $db->prepare($sql);
+    if (!$statement){
+        die("failure");
+    }
     $statement->bind_param("ss", $table, $mods);
     
     $statement->execute();
@@ -49,7 +52,7 @@
         $rows['query_results'][] = $r;
     }
     echo json_encode($rows);
-    
+
     $statement->close();
     $db->close();
 ?>

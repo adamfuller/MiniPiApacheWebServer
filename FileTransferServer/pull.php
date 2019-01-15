@@ -1,25 +1,25 @@
 <?php
     /*
         get input variable demo
-        if (isset($_GET['variableName'])){
-            $variableName = $_GET['variableName'];
+        if (isset($_REQUEST['variableName'])){
+            $variableName = $_REQUEST['variableName'];
         
         }
     */
 
     // database settings
     // table open for any traffic/transfers
-    if (isset($_GET['table']) && $_GET['table'] != ''){
-        $table = $_GET['table'];
-    } elseif (isset($_GET['ex_ip']) && $_GET['ex_ip'] != ''){
-        $table = $_GET['ex_ip'];
+    if (isset($_REQUEST['table']) && $_REQUEST['table'] != ''){
+        $table = $_REQUEST['table'];
+    } elseif (isset($_REQUEST['ex_ip']) && $_REQUEST['ex_ip'] != ''){
+        $table = $_REQUEST['ex_ip'];
     } else{
         $table = "open";
     }
 
     // get any special modifications to the request
-    if (isset($_GET['mods']) && $_GET['mods'] != ''){
-        $mods = $_GET['mods'];
+    if (isset($_REQUEST['mods']) && $_REQUEST['mods'] != ''){
+        $mods = $_REQUEST['mods'];
     }else{
         $mods = "";
     }

@@ -56,6 +56,7 @@
         echo $db->error;
     }
     
-    mysqli_close($db);
+    $statement->close();
+    $db->close();
     
 ?>

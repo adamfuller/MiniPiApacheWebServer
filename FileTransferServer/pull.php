@@ -25,7 +25,7 @@
     }
 
     // sql statement
-    $sql = "SELECT * from ". $table . $mods;
+    $sql = "SELECT * from ? ?";
 
     // attempt to connect to database
     $db = new mysqli("localhost", "root", "JqFl8497__GcZ-P", "FileTransferServer");
@@ -35,13 +35,21 @@
         die("Connection failed");
     }
 
+    $statement = $db->prepare($sql);
+    $statement->bind_param("ss", $table, $mods);
+    
+    $statement->execute();
+    $statement->bind_result($result);
+    $statement->fetch();
+    
+
     // query sql statement
-    $result = $db->query($sql);
     $rows = array();
     while ($r = mysqli_fetch_assoc($result)){
         $rows['query_results'][] = $r;
     }
     echo json_encode($rows);
-
-    mysqli_close($db);
+    
+    $statement->close();
+    $db->close();
 ?>

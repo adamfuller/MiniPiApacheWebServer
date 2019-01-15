@@ -14,5 +14,5 @@ function getIP($ip = null, $deep_detect = TRUE){
     return $ip;
 }
 
-echo getIP(null, true);
+echo getIP();
 ?>

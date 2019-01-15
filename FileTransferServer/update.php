@@ -3,7 +3,7 @@
     if (isset($_GET['table']) && $_GET['table'] != ''){
         $table = $_GET['table'];
     }else{
-        $table = "testTable5";
+        $table = "open";
     }
 
     if (isset($_GET['user']) && $_GET['user'] != ''){

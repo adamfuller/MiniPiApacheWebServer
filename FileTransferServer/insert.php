@@ -3,7 +3,7 @@
     if (isset($_GET['table']) && $_GET['table'] != ''){
         $table = $_GET['table'];
     }else{
-        $table = "testTable5";
+        $table = "open";
     }
 
     if (isset($_GET['user']) && $_GET['user'] != ''){
@@ -33,7 +33,7 @@
 
     // sql statement
     $labels = $_GET["s"];
-    $key = $_GET["v"];
+    $key = $_GET["k"];
     $sql = "INSERT INTO ".$table." (".$labels.") VALUES (".$key.")";
 
     // attempt to connect to database

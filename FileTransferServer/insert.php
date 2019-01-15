@@ -9,29 +9,25 @@
         $table = "open";
     }
 
-    if (isset($_GET['username']) && $_GET['username'] != ''){
+    if (isset($_GET['username'])){
         $username = $_GET['username'];
     } else{
         die("No username");
     }
 
-    if (isset($_GET['ip']) && $_GET['ip'] != ''){
+    if (isset($_GET['ip'])){
         $ip = $_GET['ip'];
     } else{
         die("No ip");
     }
 
-    if (isset($_GET['active']) && $_GET['active'] != ''){
+    if (isset($_GET['active'])){
         $active = $_GET['active'];
     } else{
         die("No active");
     }
 
-    if (isset($_GET['mask']) && $_GET['mask'] != ''){
-        $mask = $_GET['mask'];
-    } else{
-        $mask = "0";
-    }
+    $mask = $_GET['mask'] ?? "0";
 
     // sql statement
     $sql = "INSERT INTO ".$table." (username, ip, active, mask) VALUES (".$username.", ".$ip.", ".$active.", ".$mask.")";

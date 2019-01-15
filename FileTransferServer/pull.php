@@ -7,6 +7,8 @@
         }
     */
 
+
+
     // database settings
     // table open for any traffic/transfers
     if (isset($_REQUEST['table']) && $_REQUEST['table'] != ''){
@@ -17,16 +19,19 @@
         $table = "open";
     }
 
+    // sql statement
+    $sql = "SELECT * from ". $table;
+
     // get any special modifications to the request
-    if (isset($_REQUEST['mods'])){
-        $mods = $_REQUEST['mods'];
-        echo $mods;
-    }else{
-        $mods = "";
+    if (isset($_REQUEST['username'])){
+        $username = $_REQUEST['username'];
+        $sql = $sql . " where username = '$username'";
     }
 
-    // sql statement
-    $sql = "SELECT * from ". $table . " where username = sample_username";
+    // if (isset($_REQUEST['mask'])){
+    //     $mask = $_REQUEST['mask'];
+    //     $sql = $sql . " where mask = '$mask'";
+    // }
 
     // attempt to connect to database
     $db = new mysqli("localhost", "root", "JqFl8497__GcZ-P", "FileTransferServer");

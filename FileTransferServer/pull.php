@@ -39,7 +39,11 @@
     if (!$statement){
         die("failure");
     }
-    $statement->bind_param("s", $mods);
+    if ($mods != ""){
+        $statement->bind_param("s", $mods);
+    } else {
+        $statement->bind_param("s", $mods);
+    }
     
     $statement->execute();
     $statement->bind_result($result);

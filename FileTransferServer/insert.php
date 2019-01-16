@@ -4,9 +4,9 @@
     var_dump($_REQUEST);
 
     if (isset($_REQUEST['table']) && $_REQUEST['table'] != ''){
-        $table = $_REQUEST['table'];
+        $table = str_replace(".", "_", $_REQUEST['table']);
     } elseif (isset($_REQUEST['ex_ip']) && $_REQUEST['ex_ip'] != ''){
-        $table = $_REQUEST['ex_ip'];
+        $table = str_replace(".", "_", $_REQUEST['ex_ip']);
     } else{
         $table = "open";
     }
@@ -32,7 +32,7 @@
     $mask = intval($_REQUEST['mask']) ?? 0;
 
     // sql statement
-    $sql = "INSERT INTO ".$table." (username, ip, active, mask) VALUES (".$username.", ".$ip.", ".$active.", ".$mask.")";
+    $sql = "INSERT INTO $table (username, ip, active, mask) VALUES (".$username.", ".$ip.", ".$active.", ".$mask.")";
 
     // attempt to connect to database
     $db = new mysqli("localhost", "root", "JqFl8497__GcZ-P", "FileTransferServer");
@@ -55,6 +55,6 @@
         echo $db->error;
     }
     
-    mysqli_close($db);
+    $db->close();
 ?>
 

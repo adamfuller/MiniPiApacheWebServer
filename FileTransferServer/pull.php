@@ -12,9 +12,9 @@
     // database settings
     // table open for any traffic/transfers
     if (isset($_REQUEST['table']) && $_REQUEST['table'] != ''){
-        $table = $_REQUEST['table'];
+        $table = str_replace(".", "-", $_REQUEST['table']);
     } elseif (isset($_REQUEST['ex_ip']) && $_REQUEST['ex_ip'] != ''){
-        $table = $_REQUEST['ex_ip'];
+        $table = str_replace(".", "-", $_REQUEST['ex_ip']);
     } else{
         $table = "open";
     }
@@ -45,7 +45,7 @@
     $result = $db->query($sql);
     $rows = array();
     while ($r = mysqli_fetch_assoc($result)){
-        $rows['query_results'][] = $r;
+        $rows['query_results'][] = str_replace("-", ".", $r);
     }
     echo json_encode($rows);
 

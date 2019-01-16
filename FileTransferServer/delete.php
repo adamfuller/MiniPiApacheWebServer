@@ -22,7 +22,7 @@
     }
 
     // sql statement
-    $sql = "DELETE FROM TABLE WHERE 'username' = '?' AND 'ip' = '?'";
+    $sql = "DELETE FROM ? WHERE 'username' = '$username' AND ip = '$ip'";
 
     // attempt to connect to database
     $db = new mysqli("localhost", "root", "JqFl8497__GcZ-P", "FileTransferServer");
@@ -34,7 +34,7 @@
     }
 
     $statement = $db->prepare($sql);
-    $statement->bind_param("ss", $username, $ip);
+    $statement->bind_param("s", $table);
     
     $result = $statement->execute();
 

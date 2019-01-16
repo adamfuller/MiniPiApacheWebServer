@@ -50,7 +50,7 @@
 
     // query sql statement
     if ($result){
-        echo "Succes";
+        echo "succes";
     } else {
         echo $db->error;
     }

@@ -10,7 +10,7 @@
     }
 
     // sql statement
-    $sql = "CREATE TABLE ? (username TEXT, ip TEXT, active NUMERIC, mask TINYINT)";
+    $sql = "CREATE TABLE $table (username TEXT, ip TEXT, active NUMERIC, mask TINYINT)";
 
     // attempt to connect to database
     $db = new mysqli("localhost", "root", "JqFl8497__GcZ-P", "FileTransferServer");
@@ -20,11 +20,8 @@
     if ($db->connect_errno > 0){
         die("Connection failed");
     }
-
-    $statement = $db->prepare($sql);
-    $statement->bind_param("s", $table);
     
-    $result = $statement->execute();
+    $result = $db->query($sql);
 
     // query sql statement
     if ($result){
@@ -33,7 +30,6 @@
         echo $db->error;
     }
     
-    $statement->close();
     $db->close();
     
 ?>

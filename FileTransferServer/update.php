@@ -33,7 +33,7 @@
     // sql statement
     $labels = $_REQUEST["s"];
     $key = $_REQUEST["k"];
-    $sql = "UPDATE ".$table." SET active = ?, mask = ? WHERE (username = ?) AND (ip = ?)";
+    $sql = "UPDATE $table SET active = ?, mask = ? WHERE (username = ?) AND (ip = ?)";
 
     // attempt to connect to database
     $db = new mysqli("localhost", "root", "JqFl8497__GcZ-P", "FileTransferServer");
@@ -50,10 +50,10 @@
     $result = $statement->execute();
 
     // query sql statement
-    if ($result){
-        echo "success";
-    } else {
+    if (!$result){
         echo $db->error;
+    } else {
+        echo "success";
     }
     
     $statement->close();

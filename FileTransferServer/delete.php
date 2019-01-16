@@ -18,11 +18,12 @@
     if (isset($_REQUEST['ip'])){
         $ip = $_REQUEST['ip'];
     } else{
-        $ip = "192.168.1.70";
+        $ip = "172.24.5.68";
     }
 
     // sql statement
-    $sql = "DELETE FROM $table WHERE 'username' = '$username' AND ip = '$ip'";
+    $sql = "DELETE FROM $table WHERE username = '$username' AND ip = '$ip'";
+    echo $sql;
 
     // attempt to connect to database
     $db = new mysqli("localhost", "root", "JqFl8497__GcZ-P", "FileTransferServer");

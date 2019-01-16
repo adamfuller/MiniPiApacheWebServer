@@ -6,19 +6,19 @@
     } elseif (isset($_REQUEST['ex_ip']) && $_REQUEST['ex_ip'] != ''){
         $table = $_REQUEST['ex_ip'];
     } else{
-        die("No table specified");
+        $table = "open";
     }
 
     if (isset($_REQUEST['username'])){
         $username = $_REQUEST['username'];
     } else{
-        die("No username");
+        $username = "sample_username";
     }
 
     if (isset($_REQUEST['ip'])){
         $ip = $_REQUEST['ip'];
     } else{
-        die("No ip");
+        $ip = "192.168.1.70";
     }
 
     // sql statement

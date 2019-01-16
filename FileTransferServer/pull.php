@@ -45,7 +45,11 @@
     $result = $db->query($sql);
     $rows = array();
     while ($r = mysqli_fetch_assoc($result)){
-        $rows['query_results'][] = str_replace("_", ".", $r);
+        if (strpos($r, 'ip') !== false) {
+            $rows['query_results'][] = str_replace("_", ".", $r);
+        } else {
+            $rows['query_results'][] = $r;
+        }
     }
     echo json_encode($rows);
 

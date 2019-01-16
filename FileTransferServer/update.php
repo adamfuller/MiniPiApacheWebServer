@@ -52,8 +52,10 @@
     // query sql statement
     if (!$result){
         echo $db->error;
-    } else {
+    } elseif ($db->affected_rows > 0) {
         echo "success";
+    } else {
+        return "failure";
     }
     
     $statement->close();

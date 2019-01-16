@@ -2,9 +2,9 @@
     // database settings
     // table open for any traffic/transfers
     if (isset($_REQUEST['table']) && $_REQUEST['table'] != ''){
-        $table = str_replace(".", "-", $_REQUEST['table']);
+        $table = str_replace(".", "_", $_REQUEST['table']);
     } elseif (isset($_REQUEST['ex_ip']) && $_REQUEST['ex_ip'] != ''){
-        $table = str_replace(".", "-", $_REQUEST['ex_ip']);
+        $table = str_replace(".", "_", $_REQUEST['ex_ip']);
     } else{
         die("No table specified");
     }

@@ -25,7 +25,7 @@
 
     // query sql statement
     if ($result){
-        echo "succes";
+        echo "success";
     } else {
         echo $db->error;
     }

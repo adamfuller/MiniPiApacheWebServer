@@ -22,7 +22,7 @@
     }
 
     // sql statement
-    $sql = "DELETE FROM ? WHERE 'username' = '$username' AND ip = '$ip'";
+    $sql = "DELETE FROM '$table' WHERE 'username' = '$username' AND ip = '$ip'";
 
     // attempt to connect to database
     $db = new mysqli("localhost", "root", "JqFl8497__GcZ-P", "FileTransferServer");
@@ -32,11 +32,8 @@
     if ($db->connect_errno > 0){
         die("Connection failed");
     }
-
-    $statement = $db->prepare($sql);
-    $statement->bind_param("s", $table);
     
-    $result = $statement->execute();
+    $result = $db->query($sql);
 
     // query sql statement
     if ($result){

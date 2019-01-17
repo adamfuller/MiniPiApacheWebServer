@@ -18,7 +18,7 @@
     }
 
     if (isset($_REQUEST['ip'])){
-        $ip = $_REQUEST['ip'];
+        $ip = str_replace(".", "_", $_REQUEST['ip']);
     } else{
         die("No ip");
     }

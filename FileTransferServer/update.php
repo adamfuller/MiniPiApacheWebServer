@@ -16,7 +16,7 @@
     }
 
     if (isset($_REQUEST['ip'])){
-        $ip = $_REQUEST['ip'];
+        $ip = str_replace(".", "_", $_REQUEST['ip']);
     } else{
         die("No ip");
     }
@@ -31,8 +31,6 @@
     $mask = intval($_REQUEST['mask']) ?? 0;
 
     // sql statement
-    $labels = $_REQUEST["s"];
-    $key = $_REQUEST["k"];
     $sql = "UPDATE $table SET active = ?, mask = ? WHERE (username = ?) AND (ip = ?)";
 
     // attempt to connect to database

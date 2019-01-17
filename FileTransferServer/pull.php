@@ -50,5 +50,5 @@
     }
     echo json_encode($rows);
 
-    mysqli_close($db);
+    $db->close();
 ?>

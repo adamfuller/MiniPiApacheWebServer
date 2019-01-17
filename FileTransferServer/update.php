@@ -31,7 +31,7 @@
     $mask = intval($_REQUEST['mask']) ?? 0;
 
     // sql statement
-    $sql = "UPDATE $table SET active = ?, mask = ? WHERE (username = ?) AND (ip = ?)";
+    $sql = "UPDATE $table SET active = $active, mask = $mask WHERE (username = '$username') AND (ip = '$ip')";
 
     // attempt to connect to database
     $db = new mysqli("localhost", "root", "JqFl8497__GcZ-P", "FileTransferServer");
@@ -42,10 +42,10 @@
         die("Connection failed");
     }
 
-    $statement = $db->prepare($sql);
-    $statement->bind_param("iiss", $active, $mask, $username, $ip);
+    //$statement = $db->prepare($sql);
+    //$statement->bind_param("iiss", $active, $mask, $username, $ip);
     
-    $result = $statement->execute();
+    $result = $db->query($sql);
 
     // query sql statement
     if (!$result){
@@ -56,7 +56,7 @@
         return "failure";
     }
     
-    $statement->close();
+    //$statement->close();
     $db->close();
     
 ?>

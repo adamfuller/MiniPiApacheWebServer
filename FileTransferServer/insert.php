@@ -1,14 +1,15 @@
 <?php
     // database settings
     // table open for any traffic/transfers
-    var_dump($_REQUEST);
+    //var_dump($_REQUEST);
 
     if (isset($_REQUEST['table']) && $_REQUEST['table'] != ''){
         $table = str_replace(".", "_", $_REQUEST['table']);
     } elseif (isset($_REQUEST['ex_ip']) && $_REQUEST['ex_ip'] != ''){
         $table = str_replace(".", "_", $_REQUEST['ex_ip']);
     } else{
-        $table = "open";
+	die("no table");
+        //$table = "open";
     }
 
     if (isset($_REQUEST['username'])){
@@ -32,7 +33,7 @@
     $mask = intval($_REQUEST['mask']) ?? 0;
 
     // sql statement
-    $sql = "INSERT INTO $table (username, ip, active, mask) VALUES (".$username.", ".$ip.", ".$active.", ".$mask.")";
+    $sql = "INSERT INTO $table (username, ip, active, mask) VALUES ('$username', '$ip', $active, $mask)";
 
     // attempt to connect to database
     $db = new mysqli("localhost", "root", "JqFl8497__GcZ-P", "FileTransferServer");
@@ -43,18 +44,21 @@
     }
 
 
-    $statement = $db->prepare("INSERT INTO ".$table." (username, ip, active, mask) VALUES (?, ?, ?, ?)");
-    $statement->bind_param("ssii", $username, $ip, $active, $mask);
+    //$statement = $db->prepare("INSERT INTO ".$table." (username, ip, active, mask) VALUES (?, ?, ?, ?)");
+    //$statement->bind_param("ssii", $username, $ip, $active, $mask);
     
-    $result = $statement->execute();
+    $result = $db->query($sql);
 
     // query sql statement
-    if ($result){
+    if (!$result){
+        echo $db->error;
+    } elseif ($db->affected_rows > 0) {
         echo "success";
     } else {
-        echo $db->error;
+        return "failure";
     }
-    $statement->close();
+
+    //$statement->close();
     $db->close();
 ?>
 

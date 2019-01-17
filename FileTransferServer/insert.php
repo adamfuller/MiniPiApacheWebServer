@@ -54,7 +54,7 @@
     } else {
         echo $db->error;
     }
-    
+    $statement->close();
     $db->close();
 ?>
 

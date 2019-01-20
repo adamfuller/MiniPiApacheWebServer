@@ -49,7 +49,7 @@
         if (strpos($db->error, 'exist')){ // if the table doesn't exist error is thrown
             // create the table
             exec('wget localhost/FileTransferServer/create.php?ex_ip=$table');
-            $result = $db->query($sql);
+            $result = $db->execute();
         }
         // echo $db->error;
     } elseif ($db->affected_rows > 0) {

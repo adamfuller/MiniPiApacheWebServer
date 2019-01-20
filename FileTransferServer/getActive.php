@@ -28,6 +28,12 @@
 
     // query sql statement
     $result = $db->query($sql);
+
+    if (strpos($db->error, 'exist')){ // if the table doesn't exist error is thrown
+        exec('wget localhost/FileTransferServer/create.php?ex_ip=$table');
+        $result = $db->query($sql);
+    }
+
     $rows = array();
     while ($r = mysqli_fetch_assoc($result)){
         $r['ip'] = str_replace("_",".", $r['ip']);

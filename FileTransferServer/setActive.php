@@ -46,7 +46,12 @@
 
     // query sql statement
     if (!$result){
-        echo $db->error;
+        if (strpos($db->error, 'exist')){ // if the table doesn't exist error is thrown
+            // create the table
+            exec('wget localhost/FileTransferServer/create.php?ex_ip=$table');
+            $result = $db->query($sql);
+        }
+        // echo $db->error;
     } elseif ($db->affected_rows > 0) {
         echo "success";
     } else {

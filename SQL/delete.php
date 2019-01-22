@@ -45,17 +45,17 @@
         die("No user specified");
     }
 
-    if (isset($_REQUEST['specs']) && $_REQUEST['specs'] != ''){
-        $specs = $_REQUEST['specs'];
-    } elseif (isset($_REQUEST['s']) && $_REQUEST['s'] != ''){
-        $specs = $_REQUEST['specs'];
+    if (isset($_REQUEST['where']) && $_REQUEST['where'] != ''){
+        $where = $_REQUEST['where'];
+    } elseif (isset($_REQUEST['w']) && $_REQUEST['w'] != ''){
+        $where = $_REQUEST['w'];
     } else {
-        die("No specs specified ex: col1 = 'something'");
+        die("No where specified ex: col1 = 'something'");
     }
 
 
     // sql statement
-    $sql = "DELETE FROM $table WHERE $specs";
+    $sql = "DELETE FROM $table WHERE $where";
     // echo $sql;
 
     // attempt to connect to database

@@ -1,5 +1,5 @@
 <?php 
 date_default_timezone_set("UTC"); 
-$date = date('m/d/Y/h:i:s-a', time());
+$date = date('Y/m/d/h/i-a', time());
 echo "UTC:".$date;
 ?>

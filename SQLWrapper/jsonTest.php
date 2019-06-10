@@ -1,6 +1,7 @@
 <?php
     $json_str = file_get_contents('php://input');
     if ($json_str == null) die("No json input");
+    echo ("input : $json_str");
     $json = json_decode($json_str);
     if ($json == null) die("Couldn't decode json");
 

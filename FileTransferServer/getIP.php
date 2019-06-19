@@ -1,4 +1,5 @@
 <?php
+header("Access-Control-Allow-Origin: *");
 function getIP($ip = null, $deep_detect = TRUE){
     if (filter_var($ip, FILTER_VALIDATE_IP) === FALSE) {
         $ip = $_SERVER["REMOTE_ADDR"];

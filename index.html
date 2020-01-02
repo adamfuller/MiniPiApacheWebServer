@@ -123,31 +123,24 @@
   <a class="bigLink" href="/datetime">DateTime</a></br>
   <button class="dropdown">Features</button>
   <div class="content">
-    • Server's local datetime</br>
+    • Server's datetime</br>
+    • Adjustable timezones</br>
   </div>
   </br>
   <a class="bigLink" href="/epoch">Seconds Since Epoch</a></br>
 
   <script>
-    var coll = document.getElementsByClassName("dropdown");
 
-    
-    if (document.domain.includes("octalbyte")){
-      var welcome = document.getElementById("welcome");
-      welcome.innerHTML = "Welcome to OctalByte";
-    }
-    
-    
+    if (document.domain.includes("octalbyte"))
+      document.getElementById("welcome").innerHTML = "Welcome to OctalByte";
 
-    for (let i = 0; i < coll.length; i++) {
-      coll[i].addEventListener("click", function () {
+
+    var dropDowns = document.getElementsByClassName("dropdown");
+    for (let i = 0; i<dropDowns.length; i++){
+      dropDowns[i].addEventListener("click", function () {
         this.classList.toggle("active");
-        var content = this.nextElementSibling;
-        if (content.style.maxHeight) {
-          content.style.maxHeight = null;
-        } else {
-          content.style.maxHeight = content.scrollHeight + "px";
-        }
+        var c = this.nextElementSibling;
+        c.style.maxHeight = c.style.maxHeight ? null : c.scrollHeight + "px";
       });
     }
   </script>

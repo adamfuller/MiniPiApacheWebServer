@@ -1,23 +1,145 @@
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
 <html xmlns="http://www.w3.org/1999/xhtml">
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>"Howdy"</title>
-  </head>
-  <body>
-    <p style="text-align: center">
-      Hello and welcome to Just Another Pi</br>
-      <a href="/maze">Maze Generator</a></br>
-      <a href="/planets">Planetary Orbit Simulator</a></br>
-      <a href="/life">Game of Life</a></br>
-      <a href="/mandelbrot">Mandelbrot Explorer</a></br>
-      <a href="/blocks">Blocks</a></br>
-      <a href="/blobs">Blobs</a></br>
-      <a href="/fish">Fish?</a></br>
-      <!-- <a href="/nothing">Literally Nothing</a></br> -->
-      <a href="/MySQL">MySQL</a></br>
-      <a href="time.php">Server Time</a></br>
-    </p>
-  </body>
+
+<style>
+  .dropdown {
+    margin-left: 25px;
+    content: "    \2193";
+    background-color: lightgray;
+    border-radius: 20px;
+    cursor: pointer;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: small;
+  }
+
+  .dropdown:hover {
+    background-color: cyan;
+  }
+
+  .dropdown:after {
+    content: "    \2193";
+  }
+
+  .active:after {
+    content: "    \2191";
+  }
+
+  .content {
+    margin-left: 50px;
+    max-height: 0;
+    overflow: hidden;
+    /* Keep from view when collapsed*/
+    transition: max-height 0.2s ease-out;
+  }
+</style>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>"Howdy"</title>
+</head>
+
+<body style="margin: 10px">
+  <h2 style="text-align: center; font-size: larger">
+    Welcome to Just Another Pi
+  </h2>
+  <a class="bigLink" href="/maze">Maze Generator</a></br>
+  <button class="dropdown">Features</button>
+  <div class="content">
+    • Randomly generated</br>
+    • User explorable</br>
+    • 3 different sizes</br>
+    • Viewable solutions
+  </div>
+  </br>
+
+  <a class="bigLink" href="/planets">Planetary Orbit Simulator</a></br>
+  <button class="dropdown">Features</button>
+  <div class="content">
+    • Random initial orbits</br>
+    • Click to add planets</br>
+    • Planet maps
+    <a style="font-size: small" href="http://planetpixelemporium.com">(source)</a>
+  </div>
+  <button class="dropdown">Bugs</button>
+  <div class="content">
+    • Flicker on collisions
+  </div>
+  </br>
+
+  <a class="bigLink" href="/life">Game of Life</a></br>
+  <button class="dropdown">Features</button>
+  <div class="content">
+    • Fullscreen adjustable (on reload)</br>
+    • Manual toggling (click a cell)</br>
+    • Pausable (spacebar)</br>
+    • Cycle stepping (arrow keys when paused)</br>
+    • Reloadable (press r)</br>
+  </div>
+  <button class="dropdown">TODO</button>
+  <div class="content">
+    • Allow offscreen expansion</br>
+    • Allow scrolling</br>
+  </div>
+  </br>
+
+  <a class="bigLink" href="/mandelbrot">Mandelbrot Explorer</a></br>
+  <button class="dropdown">Features</button>
+  <div class="content">
+    • Colorized mandelbrot set</br>
+    • Zoom (arrow keys)</br>
+    • Scrolling (Macro: WASD, Micro: TFGH)</br>
+    • Reset (press 0)</br>
+    • Redrawn only on changes</br>
+  </div>
+  </br>
+
+  <a class="bigLink" href="/blocks">Blocks</a></br>
+  <a class="bigLink" href="/blobs">Blobs</a></br>
+  <button class="dropdown">Features</button>
+  <div class="content">
+    • Control a small blob to gather up food pellets and grow</br>
+    • Move using gravitational attraction towards the cursor</br>
+    • Sample line shows current trajectory</br>
+    • Click to grow in size but lose health quicker</br>
+    • Grow too big and you'll pop (shrink back to starting size)</br>
+  </div>
+  <button class="dropdown">TODO</button>
+  <div class="content">
+    • Scores</br>
+    • See other users</br>
+    • Expand map</br>
+    • Centralize food</br>
+  </div>
+  </br>
+  <a class="bigLink" href="/fish">Fish?</a></br>
+  <!-- <a href="/nothing">Literally Nothing</a></br> -->
+  <a class="bigLink" href="/MySQL">MySQL</a></br>
+  <a class="bigLink" href="/datetime">DateTime (UTC)</a></br>
+  <button class="dropdown">Features</button>
+  <div class="content">
+    • Server's local datetime</br>
+  </div>
+  </br>
+  <a class="bigLink" href="/epoch">Seconds Since Epoch (UTC)</a></br>
+
+  <script>
+    var coll = document.getElementsByClassName("dropdown");
+
+    for (let i = 0; i < coll.length; i++) {
+      coll[i].addEventListener("click", function () {
+        this.classList.toggle("active");
+        var content = this.nextElementSibling;
+        if (content.style.maxHeight) {
+          content.style.maxHeight = null;
+        } else {
+          content.style.maxHeight = content.scrollHeight + "px";
+        }
+      });
+    }
+  </script>
+
+</body>
+
 </html>

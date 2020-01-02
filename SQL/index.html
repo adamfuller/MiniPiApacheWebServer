@@ -1,0 +1,142 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>"SQL Tools"</title>
+</head>
+
+<style>
+    code {
+        background-color: #555;
+        border-radius: 3px;
+        font-family: courier, monospace;
+        padding: 0 3px;
+    }
+
+    body {
+        background-color: #000;
+        color: #FFF;
+    }
+</style>
+
+<body background="black">
+    <h2 style="text-align: center; font-size: larger">
+        SQL Tools
+    </h2>
+    <dl>
+        <dt style="font-size: large;">
+            Common
+        </dt>
+        <dd>
+            host - host of the server being accessed, leave empty for localhost
+        </dd>
+        <dd>
+            database - name of database being modfied/created/read
+        </dd>
+        <dd>
+            user - user to access the database as
+        </dd>
+        <dd>
+            password - password associated with the user
+        </dd>
+        </br>
+        <dt style="font-size: large;">
+            createDatabase.php
+        </dt>
+        <dd>
+            Creates a new database of name <code>database</code> when used like the example below
+        </dd>
+        <dd>
+            Ex:
+            </br>
+            http://octalbyte.com/SQL/createDatabase.php?user=<code>username</code>&psk=<code>password</code>&database=<code>databaseName</code>
+        </dd>
+        </br>
+        <dt style="font-size: large;">
+            createTable.php
+        </dt>
+        <dd>
+            Creates a new table of name <code>tableName</code> in the database <code>databaseName</code>
+        </dd>
+        <dd>
+            columns should be formatted: col1 TEXT, col2 NUMERIC, col3 INT
+        </dd>
+        <dd>
+            <dl>
+                <dt>
+                    Additional Arguments:
+                </dt>
+                <dd>
+                    table - name of the table to be created, can be abbreviated
+                </dd>
+                <dd>
+                    columns - column names and their datatypes
+                </dd>
+            </dl>
+        </dd>
+        <dt style="font-size: large;">
+            insert.php
+        </dt>
+        <dd>
+            Inserts <code>values</code> into <code>table</code>
+        </dd>
+        <dd>
+            Values should either be labeled by column or in the same order
+        </dd>
+        <dd>
+            <dl>
+                <dt>
+                    Additional Arguments:
+                </dt>
+                <dd>
+                    table - name of the table to be created, can be abbreviated
+                </dd>
+                <dd>
+                    columns - column names in the same order as the values
+                </dd>
+                <dd>
+                    values - values to be inserted, should match the corresponding column
+                </dd>
+
+
+            </dl>
+
+        </dd>
+        <dt style="font-size: large;">
+            pull.php
+        </dt>
+        <dd>
+            Queries the contents of <code>table</code>
+        </dd>
+        <dd>
+            <code>specs</code> should be a valid SQL WHERE statement
+        </dd>
+        <dd>
+            <dl>
+                <dt>
+                    Additional Arguments:
+                </dt>
+                <dd>
+                    table - name of the table to be queried, can be abbreviated t
+                </dd>
+                <dd>
+                    where - column names in the same order as the values
+                </dd>
+
+            </dl>
+        </dd>
+        <dd>
+            <dl>
+                <dt>
+                    Optional Arguments:
+                </dt>
+                <dd>
+                    where - conditions for a row to be returned if empty all are returned
+                </dd>
+
+            </dl>
+        </dd>
+
+    </dl>
+</body>

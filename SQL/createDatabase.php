@@ -5,8 +5,8 @@ include "../tools.php";
 // database settings
     // table open for any traffic/transfers
 
-    $database = getInput(array("database","db", "d"), die("No database specified"));
-    $user = getInput(array("user","u"), die("No user specified"));
+    $database = getInput(array("database", "db", "d"), NULL);
+    $user = getInput(array("user","u"), NULL);
     $host = getInput(array("host", "url", "ip"), "localhost");
     $password = getInput(array("password","psk", "p"), die("No password specified"));
 

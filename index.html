@@ -45,7 +45,7 @@
 </head>
 
 <body style="margin: 10px">
-  <h2 style="text-align: center; font-size: larger">
+  <h2 id="welcome" style="text-align: center; font-size: larger">
     Welcome to Just Another Pi
   </h2>
   <a class="bigLink" href="/maze">Maze Generator</a></br>
@@ -130,6 +130,14 @@
 
   <script>
     var coll = document.getElementsByClassName("dropdown");
+
+    
+    if (document.domain == "www.octalbyte.com"){
+      var welcome = document.getElementById("welcome");
+      welcome.innerHTML = "Welcome to OctalByte";
+    }
+    
+    
 
     for (let i = 0; i < coll.length; i++) {
       coll[i].addEventListener("click", function () {

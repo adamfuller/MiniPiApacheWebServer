@@ -5,11 +5,11 @@
     $json = json_decode($json_str);
     if ($json == null) die("Couldn't decode json");
 
-    $table = $json->{table};
-    $database = $json->{database};
-    $user = $json->{user};
-    $password = $json->{password};
-    $location = $json->{location};
+    $table = $json->{"table"};
+    $database = $json->{"database"};
+    $user = $json->{"user"};
+    $password = $json->{"password"};
+    $location = $json->{"location"};
 
     $sql = "SHOW COLUMNS FROM $table FROM $database";
 

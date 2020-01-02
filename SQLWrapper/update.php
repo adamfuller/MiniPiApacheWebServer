@@ -5,13 +5,13 @@
     $json = json_decode($json_str);
     if ($json == null) die("Couldn't decode json");
 
-    $table = $json->{table};
-    $database = $json->{database};
-    $user = $json->{user};
-    $password = $json->{password};
-    $location = $json->{location};
-    $data = $json->{data}; // Data to be uploaded; keys should be the columns
-    $conditions = $json->{conditions}; // Conditions to be met to replace row
+    $table = $json->{"table"};
+    $database = $json->{"database"};
+    $user = $json->{"user"};
+    $password = $json->{"password"};
+    $location = $json->{"location"};
+    $data = $json->{"data"}; // Data to be uploaded; keys should be the columns
+    $conditions = $json->{"conditions"}; // Conditions to be met to replace row
 
     $set = "";
     $where = "";

@@ -8,7 +8,11 @@ include "../tools.php";
     $database = getInput(array("database", "db", "d"), NULL);
     $user = getInput(array("user","u"), NULL);
     $host = getInput(array("host", "url", "ip"), "localhost");
-    $password = getInput(array("password","psk", "p"), die("No password specified"));
+    $password = getInput(array("password","psk", "p"), NULL);
+
+    if(!isset($user) || !isset($database) || !isset($host) || !isset($password)){
+        die("Missing element");
+    }
 
     // sql statement
     $sql = "CREATE DATABASE $database";

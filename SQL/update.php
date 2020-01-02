@@ -1,48 +1,14 @@
 <?php
+    include "../tools.php";
 
-    if (isset($_REQUEST['table']) && $_REQUEST['table'] != ''){
-        $table = $_REQUEST['table'];
-    } elseif (isset($_REQUEST['t']) && $_REQUEST['t'] != ''){
-        $table = $_REQUEST['t'];
-    } else{
-        die("No table specified");
-    }
+    $database = getInput(array("database", "db", "d"), NULL, TRUE);
+    $user = getInput(array("user","u"), NULL, TRUE);
+    $host = getInput(array("host", "url", "ip"), "localhost");
+    $password = getInput(array("password","psk", "p"), NULL, TRUE);
+    $table = getInput(array("table","t"), NULL, TRUE);
+    $where = getInput(array("where","w"), NULL);
+    $set = getInput(array("set","s"), NULL, TRUE);
 
-    if (isset($_REQUEST['database']) && $_REQUEST['database'] != ''){
-        $database = $_REQUEST['database'];
-    } elseif (isset($_REQUEST['d']) && $_REQUEST['d'] != ''){
-        $database = $_REQUEST['d'];
-    }elseif (isset($_REQUEST['db']) && $_REQUEST['db'] != ''){
-        $database = $_REQUEST['db'];
-    } else{
-        die("No database specified");
-    }
-
-    if (isset($_REQUEST['url']) && $_REQUEST['url'] != ''){
-        $url = $_REQUEST['url'];
-    }elseif (isset($_REQUEST['URL']) && $_REQUEST['URL'] != ''){
-        $url = $_REQUEST['URL'];
-    } else{
-        die("No url specified");
-    }
-
-    if (isset($_REQUEST['user']) && $_REQUEST['user'] != ''){
-        $user = $_REQUEST['user'];
-    }elseif (isset($_REQUEST['u']) && $_REQUEST['u'] != ''){
-        $user = $_REQUEST['u'];
-    } else{
-        die("No user specified");
-    }
-
-    if (isset($_REQUEST['password']) && $_REQUEST['password'] != ''){
-        $password = $_REQUEST['password'];
-    }elseif (isset($_REQUEST['psk']) && $_REQUEST['psk'] != ''){
-        $password = $_REQUEST['psk'];
-    } elseif (isset($_REQUEST['p']) && $_REQUEST['p'] != ''){
-        $password = $_REQUEST['p'];
-    } else{
-        die("No user specified");
-    }
 
     if (isset($_REQUEST['set']) && $_REQUEST['set'] != ''){
         $set = $_REQUEST['set'];
@@ -58,12 +24,12 @@
         $where = $_REQUEST['w'];
     }
 
+    // Build base SQL query
+    $sql = "UPDATE $table SET $set";
 
     // sql statement
-    if (isset($_REQUEST['where']) || isset($_REQUEST['w'])){
-        $sql = "UPDATE $table SET $set WHERE $where";
-    } else {
-        $sql = "UPDATE $table SET $set";
+    if (isset($where)){
+        $sql = $sql . " WHERE $where";
     }
 
     // attempt to connect to database

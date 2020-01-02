@@ -5,14 +5,10 @@ include "../tools.php";
 // database settings
     // table open for any traffic/transfers
 
-    $database = getInput(array("database", "db", "d"), NULL);
-    $user = getInput(array("user","u"), NULL);
+    $database = getInput(array("database", "db", "d"), NULL, TRUE);
+    $user = getInput(array("user","u"), NULL, TRUE);
     $host = getInput(array("host", "url", "ip"), "localhost");
-    $password = getInput(array("password","psk", "p"), NULL);
-
-    if(!isset($user) || !isset($database) || !isset($host) || !isset($password)){
-        die("Missing element");
-    }
+    $password = getInput(array("password","psk", "p"), NULL, TRUE);
 
     // sql statement
     $sql = "CREATE DATABASE $database";

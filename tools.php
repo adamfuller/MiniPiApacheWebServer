@@ -5,13 +5,17 @@
  * @param any $default value returned if input isn't present
  * @return any value retrieved from $_REQUEST[$name]
  */
-function getInput($names, $default = NULL){
+function getInput($names, $default = NULL, $dieOnFail = FALSE){
     $names = is_array($names) ? $names : array($names);
 
     foreach($names as $name){
         if (isset($_REQUEST[$name])){
             return $_REQUEST[$name];
         }
+    }
+
+    if ($dieOnFail){
+        die("Failed to get: " . $names[0]);
     }
 
     return $default;

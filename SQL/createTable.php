@@ -7,7 +7,7 @@
     $host = getInput(array("host", "url", "ip"), "localhost");
     $password = getInput(array("password","psk", "p"), NULL, TRUE);
     $table = getInput(array("table","t"), NULL, TRUE);
-    $specs = getInput(array("specs","s"), NULL, TRUE);
+    $specs = getInput(array("specs","s","columns","cols","col"), NULL, TRUE);
 
     // sql statement
     $sql = "CREATE TABLE $table ($specs)";

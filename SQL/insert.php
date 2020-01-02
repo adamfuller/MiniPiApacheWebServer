@@ -6,11 +6,16 @@
     $host = getInput(array("host", "url", "ip"), "localhost");
     $password = getInput(array("password","psk", "p"), NULL, TRUE);
     $table = getInput(array("table","t"), NULL, TRUE);
-    $columns = getInput(array("columns","c", "col"), NULL, TRUE);
+    $columns = getInput(array("columns","c", "col"), NULL);
     $values = getInput(array("values","v","val"), NULL, TRUE);
 
     // sql statement
-    $sql = "INSERT INTO $table ($columns) VALUES ($values)";
+    if (isset($columns)){
+        $sql = "INSERT INTO $table ($columns) VALUES ($values)";
+    } else{
+        $sql = "INSERT INTO $table VALUES ($values)";
+    }
+    
 
     // attempt to connect to database
     $db = new mysqli($url, $user, $password, $database);

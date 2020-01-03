@@ -24,6 +24,7 @@
     <h2 style="text-align: center; font-size: larger">
         SQL Tools
     </h2>
+    <hr>
     <dl>
         <dt style="font-size: large;">
             Common
@@ -41,6 +42,7 @@
             password - password associated with the user
         </dd>
         </br>
+        <hr>
         <dt style="font-size: large;">
             createDatabase.php
         </dt>
@@ -53,6 +55,7 @@
             http://octalbyte.com/SQL/createDatabase.php?user=<code>username</code>&psk=<code>password</code>&database=<code>databaseName</code>
         </dd>
         </br>
+        <hr>
         <dt style="font-size: large;">
             createTable.php
         </dt>
@@ -75,6 +78,7 @@
                 </dd>
             </dl>
         </dd>
+        <hr>
         <dt style="font-size: large;">
             insert.php
         </dt>
@@ -103,6 +107,7 @@
             </dl>
 
         </dd>
+        <hr>
         <dt style="font-size: large;">
             pull.php
         </dt>
@@ -137,6 +142,42 @@
 
             </dl>
         </dd>
+        <hr>
+        <dt style="font-size: large;">
+            update.php
+        </dt>
+        <dd>
+            Updates the values of <code>table</code> based on an optional condition
+        </dd>
+        <dd>
+            <code>where</code> should be a valid SQL WHERE statement
+        </dd>
+        <dd>
+            <dl>
+                <dt>
+                    Additional Arguments:
+                </dt>
+                <dd>
+                    table - name of the table to be modified, can be abbreviated t
+                </dd>
+                <dd>
+                    set - values to overwrite rows that the where condition applies to
+                </dd>
+
+            </dl>
+        </dd>
+        <dd>
+            <dl>
+                <dt>
+                    Optional Arguments:
+                </dt>
+                <dd>
+                    where - conditions for a row to be updated
+                </dd>
+
+            </dl>
+        </dd>
+        <hr>
 
     </dl>
 </body>

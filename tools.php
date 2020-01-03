@@ -21,9 +21,9 @@ function getInput($names, $default = NULL, $dieOnFail = FALSE){
 
     // If we are supposed to die with failures and don't have the json input
     // then die.
-    if ($dieOnFail && !isset($json_input)){
-        die("Failed to get: " . $names[0]);
-    }
+    // if ($dieOnFail && !isset($json_input)){
+    //     die("Failed to get: " . $names[0]);
+    // }
 
     // Check the json input if present and return it
     $json_value = getJsonInput($names, $default, $dieOnFail);

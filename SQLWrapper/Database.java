@@ -1,4 +1,4 @@
-package SQLWrapper;
+// package SQLWrapper;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -15,6 +15,7 @@ class Database {
     final static String addUrl = "http://www.justanotherpi.com/SQLWrapper/add.php";
     final static String updateUrl = "http://www.justanotherpi.com/SQLWrapper/update.php";
     final static String columnsUrl = "http://www.justanotherpi.com/SQLWrapper/columns.php";
+    final static String pullUrl = "http://www.justanotherpi.com/SQL/pull.php";
 
     private String dbLocation, databaseName, user, password, table;
 
@@ -113,6 +114,29 @@ class Database {
 
     }
 
+    /**
+     * Pulls the entire content of the current table
+     * @return json string representing the contents of the table
+     * @throws Exception
+     */
+    public String pullTable() throws Exception{
+        return this.pullTable(this.table);
+    }
+
+    public String pullTable(String table) throws Exception {
+
+        Map<String, Object> data = new HashMap<>();
+
+        data.put("table", table);
+        data.put("database", this.databaseName);
+        data.put("location", this.dbLocation);
+        data.put("user", this.user);
+        data.put("password", this.password);
+
+        return sendGet(Database.pullUrl, data);
+
+    }
+
     //#endregion Functions that abstract the database interaction
 
     //#region Tools 
@@ -143,7 +167,9 @@ class Database {
                 stringBuilder.append(value.toString());
                 stringBuilder.append("\"");
             }
+            stringBuilder.append(",");
         });
+        stringBuilder.delete(stringBuilder.length()-1, stringBuilder.length());
         stringBuilder.append("}");
         return stringBuilder.toString();
     }
@@ -213,8 +239,23 @@ class Database {
     //#endregion Functions that operate over the internet
 
     public static void main(String[] args) {
-        
+        //
+        // DON'T FORGET TO CHANGE THE PASSWORD
+        //
+        String password = "FAKE_PASSWORD";
+        Database database = new Database(
+            "localhost",
+            "test0",
+            "admin",
+            password,
+            "testTable0"
+        );
+
+        try{
+            System.out.println(database.getPull(database.table));
+        }catch(Exception e){
+
+        }
 
     }
-
 }

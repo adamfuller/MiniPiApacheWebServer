@@ -9,21 +9,6 @@
     $where = getInput(array("where","w"), NULL);
     $set = getInput(array("set","s"), NULL, TRUE);
 
-
-    if (isset($_REQUEST['set']) && $_REQUEST['set'] != ''){
-        $set = $_REQUEST['set'];
-    }elseif (isset($_REQUEST['s']) && $_REQUEST['s'] != ''){
-        $set = $_REQUEST['s'];
-    } else{
-        die("No set specified");
-    }
-
-    if (isset($_REQUEST['where']) && $_REQUEST['values'] != ''){
-        $where = $_REQUEST['where'];
-    }elseif (isset($_REQUEST['w']) && $_REQUEST['w'] != ''){
-        $where = $_REQUEST['w'];
-    }
-
     // Build base SQL query
     $sql = "UPDATE $table SET $set";
 

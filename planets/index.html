@@ -2,16 +2,30 @@
     <head>
         <meta name="viewport" content="width=device-width, height=device-height"/>
     </head>
-    <body align="center">
+    <style>
+        body {
+            background-color: black;
+            align-content: center;
+        }
+    </style>
+    <body>
         <script type="text/javascript" src="../p5/p5.js"></script>
         <script type="text/javascript" src="../p5/p5.dom.js"></script>
         <div id="JS"></div>
         <script type="text/javascript">
-            var div = document.getElementById("JS");
+
+            // create a new script element
             var s = document.createElement("script");
+            
+            // Set to javascript
             s.type = "text/javascript"
+
+            // Set to source with randomized query so it isn't cached
             s.src = "webgl.js?q="+Math.random();
-            div.appendChild(s);
+            
+            // Append the element
+            document.body.appendChild(s);
         </script>
+        <script src="../bottomnav.js"></script>
     </body>
 </html>

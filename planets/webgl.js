@@ -153,7 +153,7 @@ function preload() {
 }
 
 function setup() {
-    createCanvas(800, 800, WEBGL);
+    createCanvas(window.width, window.height, WEBGL);
     perspective();
 
     addListeners();

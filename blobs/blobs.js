@@ -250,39 +250,42 @@ function eat(thing){
 }
 
 function postScore(thing, action){
-    $.ajax({
-        type: "POST",
-        cache: false,
-        data: "show=content",
-        url: "blobs.php?userName="+thing.userName+"&score="+thing.score+"&scoreColor="+thing.scoreColor+"&action="+action,
-        success: function(result){
-            console.log("score "+ action + " " + result);
-        }
-    });
+    // Commented out January 4 2020 keeps erroring out
+    // $.ajax({
+    //     type: "POST",
+    //     cache: false,
+    //     data: "show=content",
+    //     url: "blobs.php?userName="+thing.userName+"&score="+thing.score+"&scoreColor="+thing.scoreColor+"&action="+action,
+    //     success: function(result){
+    //         console.log("score "+ action + " " + result);
+    //     }
+    // });
 }
 
 function removeScore(thing){
-    $.ajax({
-        type: "DELETE",
-        cache: false,
-        data: "show=content",
-        url: "remove.php?userName="+thing.userName,
-        success: function(result){
-            console.log("Player removed");
-        }
-    })
+    // Commented out January 4 2020 keeps erroring out
+    // $.ajax({
+    //     type: "DELETE",
+    //     cache: false,
+    //     data: "show=content",
+    //     url: "remove.php?userName="+thing.userName,
+    //     success: function(result){
+    //         console.log("Player removed");
+    //     }
+    // })
 }
 
 function getPlayers(){
-    $.ajax({
-        type: "GET",
-        url: "../MySQL/pull.php?table=testTable12&IP=localhost&user=root&db=test1",
-        dataType: 'json',
-        success: function(result){
-            qR = result['query_results'];
-            console.log(qR);
-        }
-    })
+    // Commented out January 4 2020 keeps erroring out
+    // $.ajax({
+    //     type: "GET",
+    //     url: "../MySQL/pull.php?table=testTable12&IP=localhost&user=root&db=test1",
+    //     dataType: 'json',
+    //     success: function(result){
+    //         qR = result['query_results'];
+    //         console.log(qR);
+    //     }
+    // })
 }
 
 function scoreBoard(y, thing){

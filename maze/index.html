@@ -1,186 +1,190 @@
 <!DOCTYPE html>
 <html id="mainhtml">
-    <!- dropdown menu class ->
-        <div class="dropdown" id="dropdown">
-          <button class="dropbtn" id="dropbtn" onclick="window.location.href='../index.html'">Home</button>
-          <div class="dropdown-content">
+<!- dropdown menu class ->
+    <div class="dropdown" id="dropdown">
+        <button class="dropbtn" id="dropbtn" onclick="window.location.href='../index.html'">Home</button>
+        <div class="dropdown-content">
             <!- contents of dropdown menu (they're hyperlinks) ->
-            <a href="../planets">Planets</a>
-            <a href="../life">Life</a>
-            <a href="../blobs">Blobs</a>
-            <a href="../blocks">Blocks</a>
-            <a href='../nothing.html'>Games</a>
-            <a href="../mandelbrot">Mandelbrot</a>
-          </div>
+                <a href="../planets">Planets</a>
+                <a href="../life">Life</a>
+                <a href="../blobs">Blobs</a>
+                <a href="../blocks">Blocks</a>
+                <a href='../nothing.html'>Games</a>
+                <a href="../mandelbrot">Mandelbrot</a>
         </div>
+    </div>
 
-        <!- mobile-menu class ->
+    <!- mobile-menu class ->
         <br />
-          <nav class="mobile-menu" id="mobile-menu">
+        <nav class="mobile-menu" id="mobile-menu">
             <a href="../index.html">Home</a>
             <a href="../planets">Planets</a>
             <a href="../life">Life</a>
             <a href="../blobs">Blobs</a>
-          </nav>
-          </br>
-<body align="center">
+        </nav>
+        </br>
 
-<!- Meta Tags ->
-<meta http-equiv="cache-control" content="no-cache" />
-<meta name="viewport" content="width=device-width">
+        <body>
 
-<!- Cascading Style Sheet ->
-<link rel="stylesheet" type="text/css" href="maze.css"/>
+            <!-- Meta Tags -->
+            <meta http-equiv="cache-control" content="no-cache" />
+            <meta name="viewport" content="width=device-width">
 
-<!-  Difficulty buttons ->
-<button id="easyMode">Easy</button>
-<button id="mediumMode">Medium</button>
-<button id="hardMode">Hard</button>
-</br>
+            <!-- Cascading Style Sheet -->
+            <link rel="stylesheet" type="text/css" href="maze.css" />
 
-<!- HTML Canvas for the maze ->
-<canvas id="mazeCanvas" width="400" height="400"></canvas>
-</br>
+            <!--  Difficulty buttons -->
+            <button id="easyMode">Easy</button>
+            <button id="mediumMode">Medium</button>
+            <button id="hardMode">Hard</button>
+            </br>
 
-<!- Solution button ->
-<button id="showSolution">Show Solution</button>
+            <!-- HTML Canvas for the maze -->
+            <canvas id="mazeCanvas" width="400" height="400"></canvas>
+            </br>
 
-<!- button to move player through solution ->
-<button id="runSolution">Run Solution</button>
-</br>
+            <!-- Solution button -->
+            <button id="showSolution">Show Solution</button>
 
-<!- Buttons for control on mobile devices ->
-    <button id="upButton" class="button">UP</button>
-    </br>
-    <button id="leftButton" class="button">LEFT</button>
-    <button id="rightButton" class="button">RIGHT</button>
-    </br>
-    <button id="downButton" class="button">DOWN</button>
-<!- Imports script for maze generation ->
-<script src="maze.js"></script>
+            <!-- button to move player through solution -->
+            <button id="runSolution">Run Solution</button>
+            </br>
 
-<script>
-    window.onload = function(){
-        alert("\t\t\t\t\tControls:\n\t\t\t\tSpace: auto solve\n\t\t\t\tEnter/Return: New Maze\n\t\t\t\tArrow Keys: move");
-    }
-    var solveNum = 0;
-    var intID
-// keypress listener
-document.addEventListener("keydown",movePlayer);
-// move player through solution
-document.getElementById("runSolution").onclick = function(){
-    if (solveNum === 0){
-        solveMaze()
-        intID = setInterval(runSolution, 120)
-    }
-}
-function runSolution() {
-    if (solveNum < solveStack.length){
-        currentPlayer.player = false;
-        currentPlayer = solveStack[solveNum];
-        currentPlayer.player = true;
-        solveNum++;    
-        drawMaze();
-    } else if (solveNum === solveStack.length){
-        currentPlayer.player = false;
-        currentPlayer = end;
-        currentPlayer.player=true;
-        solveNum++;
-        drawMaze();
-    } else {
-        clearInterval(intID);
-        solveNum = 0;
-    }
-}
-// mobile button controls
-document.getElementById("upButton").onclick = function(){
-    event = {
-        keyCode: 38
-    }
-    movePlayer(event);
-}
-document.getElementById("rightButton").onclick = function(){
-    event = {
-        keyCode: 39
-    }
-    movePlayer(event);
-}
-document.getElementById("downButton").onclick = function(){
-    event = {
-        keyCode: 40
-    }
-    movePlayer(event);
-}
-document.getElementById("leftButton").onclick = function(){
-    event = {
-        keyCode: 37
-    }
-    movePlayer(event);
-}
-// difficulty buttons
-document.getElementById("easyMode").onclick = function(){
-    size = 100;
-    grid = [];
-    stack = [];
-    solveStack=[];
-    solveTurn=0;
-    solutionShown = false;
-    document.getElementById("showSolution").innerHTML = "Show Solution";
-    setup();
-    generateMaze();
-    drawMaze();
-    solveMaze();
-}
-document.getElementById("mediumMode").onclick = function(){
-    size = 50;
-    grid = [];
-    stack = [];
-    solveStack=[];
-    solveTurn=0;
-    solutionShown = false;
-    document.getElementById("showSolution").innerHTML = "Show Solution";
-    setup();
-    generateMaze();
-    drawMaze();
-    solveMaze();
-}
-document.getElementById("hardMode").onclick = function(){
-    size = 20;
-    grid = [];
-    stack = [];
-    solveStack=[];
-    solveTurn=0;
-    solutionShown = false;
-    document.getElementById("showSolution").innerHTML = "Show Solution";
-    setup();
-    generateMaze();
-    drawMaze();
-    solveMaze();
-}
-// solution reveal button
-document.getElementById("showSolution").onclick = function(){
-    solveMaze();
-    if (!solutionShown){
-        showSolvedMaze()
-        document.getElementById("showSolution").innerHTML = "Hide Solution";
-        solutionShown = true;
+            <!-- Buttons for control on mobile devices -->
+            <button id="upButton" class="button">UP</button>
+            </br>
+            <button id="leftButton" class="button">LEFT</button>
+            <button id="rightButton" class="button">RIGHT</button>
+            </br>
+            <button id="downButton" class="button">DOWN</button>
+            <!-- Imports script for maze generation -->
+            <script src="maze.js"></script>
 
-    } else {
-        drawMaze();
-        document.getElementById("showSolution").innerHTML = "Show Solution";
-        solutionShown = false;
-    } 
-};
-    // special conditions for mobile devices
-    if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
-        // hide navbar on mobile 
-        document.getElementById("dropdown").style.display="none";
-        document.getElementById("mobile-menu").style.display="inline";
-        document.getElementById("upButton").style.display="inline-block";
-        document.getElementById("rightButton").style.display="inline-block";
-        document.getElementById("downButton").style.display="inline-block";
-        document.getElementById("leftButton").style.display="inline-block";
-    }
-</script>
-<body>
+            <script>
+                window.onload = function () {
+                    alert("\t\t\t\t\tControls:\n\t\t\t\tSpace: auto solve\n\t\t\t\tEnter/Return: New Maze\n\t\t\t\tArrow Keys: move");
+                }
+                var solveNum = 0;
+                var intID
+                // keypress listener
+                document.addEventListener("keydown", movePlayer);
+                // move player through solution
+                document.getElementById("runSolution").onclick = function () {
+                    if (solveNum === 0) {
+                        solveMaze()
+                        intID = setInterval(runSolution, 120)
+                    }
+                }
+                function runSolution() {
+                    if (solveNum < solveStack.length) {
+                        currentPlayer.player = false;
+                        currentPlayer = solveStack[solveNum];
+                        currentPlayer.player = true;
+                        solveNum++;
+                        drawMaze();
+                    } else if (solveNum === solveStack.length) {
+                        currentPlayer.player = false;
+                        currentPlayer = end;
+                        currentPlayer.player = true;
+                        solveNum++;
+                        drawMaze();
+                    } else {
+                        clearInterval(intID);
+                        solveNum = 0;
+                    }
+                }
+                // mobile button controls
+                document.getElementById("upButton").onclick = function () {
+                    event = {
+                        keyCode: 38
+                    }
+                    movePlayer(event);
+                }
+                document.getElementById("rightButton").onclick = function () {
+                    event = {
+                        keyCode: 39
+                    }
+                    movePlayer(event);
+                }
+                document.getElementById("downButton").onclick = function () {
+                    event = {
+                        keyCode: 40
+                    }
+                    movePlayer(event);
+                }
+                document.getElementById("leftButton").onclick = function () {
+                    event = {
+                        keyCode: 37
+                    }
+                    movePlayer(event);
+                }
+                // difficulty buttons
+                document.getElementById("easyMode").onclick = function () {
+                    size = 100;
+                    grid = [];
+                    stack = [];
+                    solveStack = [];
+                    solveTurn = 0;
+                    solutionShown = false;
+                    document.getElementById("showSolution").innerHTML = "Show Solution";
+                    setup();
+                    generateMaze();
+                    drawMaze();
+                    solveMaze();
+                }
+                document.getElementById("mediumMode").onclick = function () {
+                    size = 50;
+                    grid = [];
+                    stack = [];
+                    solveStack = [];
+                    solveTurn = 0;
+                    solutionShown = false;
+                    document.getElementById("showSolution").innerHTML = "Show Solution";
+                    setup();
+                    generateMaze();
+                    drawMaze();
+                    solveMaze();
+                }
+                document.getElementById("hardMode").onclick = function () {
+                    size = 20;
+                    grid = [];
+                    stack = [];
+                    solveStack = [];
+                    solveTurn = 0;
+                    solutionShown = false;
+                    document.getElementById("showSolution").innerHTML = "Show Solution";
+                    setup();
+                    generateMaze();
+                    drawMaze();
+                    solveMaze();
+                }
+                // solution reveal button
+                document.getElementById("showSolution").onclick = function () {
+                    solveMaze();
+                    if (!solutionShown) {
+                        showSolvedMaze()
+                        document.getElementById("showSolution").innerHTML = "Hide Solution";
+                        solutionShown = true;
+
+                    } else {
+                        drawMaze();
+                        document.getElementById("showSolution").innerHTML = "Show Solution";
+                        solutionShown = false;
+                    }
+                };
+                // special conditions for mobile devices
+                if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                    // hide navbar on mobile 
+                    document.getElementById("dropdown").style.display = "none";
+                    document.getElementById("mobile-menu").style.display = "inline";
+                    document.getElementById("upButton").style.display = "inline-block";
+                    document.getElementById("rightButton").style.display = "inline-block";
+                    document.getElementById("downButton").style.display = "inline-block";
+                    document.getElementById("leftButton").style.display = "inline-block";
+                }
+            </script>
+            <script src="../bottomnav.js"></script>
+
+            <body>
+
 </html>

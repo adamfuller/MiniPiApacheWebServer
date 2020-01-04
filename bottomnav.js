@@ -30,6 +30,12 @@ window.addEventListener('load', function () {
         elem.style.color = "rgb(39, 240, 21)";
 
         // Add it to the page
-        document.body.appendChild(elem);
+        document.lastElementChild.appendChild(elem);
     }
+
+    // Append the last modified date
+    var lastUpdated = this.document.createElement("p");
+    lastUpdated.innerHTML = "Last updated: " + this.document.lastModified;
+    lastUpdated.style.color = "grey";
+    document.lastElementChild.appendChild(lastUpdated);
 })

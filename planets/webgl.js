@@ -190,10 +190,6 @@ function draw() {
     }
 
     for (let p = planets.length - 1; p >= 0; p--) {
-        // if (planets[p].toBeRemoved) {
-        //     planets.splice(planets.indexOf(planets[p]), 1);
-        //     break
-        // }
 
         for (let s = 0; s < suns.length; s++) {
             planets[p].applyGravity(suns[s].mass, suns[s].pos.x, suns[s].pos.y, suns[s].pos.z);

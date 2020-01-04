@@ -28,7 +28,7 @@ var dropdown = document.createElement("div")
 var dropbtn = dropdown.createElement("button");
 dropbtn.innerHTML = "Home"
 dropbtn.onclick = function () {
-    window.location.href = 'prattpi.hopto.org';
+    window.location.href = 'www.octalbyte.com';
     return false;
 };
 

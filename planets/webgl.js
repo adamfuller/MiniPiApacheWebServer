@@ -195,8 +195,9 @@ function draw() {
         //     break
         // }
 
-        for (sun in suns){
-            planets[p].applyGravity(sun.mass, sun.pos.x, sun.pos.y, sun.pos.z)
+        for (var sun in suns){
+            if (!!!sun) continue;
+            planets[p].applyGravity(sun.mass, sun.pos.x, sun.pos.y, sun.pos.z);
         }
 
         // for (let s = 0; s < suns.length; s++) {

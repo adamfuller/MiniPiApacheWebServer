@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html>
+<title>Almost Nothing</title>
+<link rel="stylesheet" type="text/css" href="nothing.css" />
+
+<body>
+  <script>
+    var snakeGameState = 1;
+    var blockGameState = 0;
+  </script>
+  <div class="active" id="snakeGame">
+    <div class="scoreboard" id="scoreboard" style="display:block">
+      <h2 id='scoreLabel'>Score: 0</h2>
+      <h2 id='highScoreLabel'></h2>
+      <h3 id='highScoreHolder'>
+        </h1>
+        <label for="username">Name:</label>
+        <input type="text" value="Jeff" class="" id="username" />
+        <script>
+          var snakeGamePaused = false;
+        </script>
+    </div>
+  </div>
+
+  <canvas id="gameCanvas" width="400" height="400"></canvas>
+  <script>
+    //keymap
+    var map = {}
+    //height and width of player cube
+    var playerHeight = 20;
+    var playerWidth = 20;
+    var colors = ["red", "green", "blue", "aliceblue", "aqua", "azure", "beige",
+      "blueviolet", "brown", "chartreuse", "coral", "cornflowerblue",
+      "crimson", "cyan", "darkblue", "darkblue", "darkcyan", "darkgoldenrod",
+      "magenta", "darkmagenta", "darkolivegreen", "darkorange", "darkorchid",
+      "darkred", "darksalmon", "darkseagreen", "turquoise", "deepskyblue", "pink",
+      "dodgerblue", 'firebrick', "forestgreen", 'fuchsia', "gold", "greenyellow",
+      "hotpink", "indigo", "ivory", "indianred", "khaki", "lawngreen", "lightblue",
+      "lightcoral", "lightcyan", "maroon", "purple", 'mediumslateblue', "mediumspringgreen",
+      "mediumseagreen", "midnightblue", "mistyrose", "moccasin", "navy", "olive"
+    ]
+    var players = [];
+
+    var player1 = {
+      score: 0,
+      bodyColor: "green",
+      headColor: "lime",
+      lazerColor: "blue",
+      xPosition: 0,
+      yPosition: 0,
+      xVelocity: 0,
+      yVelocity: 0,
+      headX: 0,
+      headY: 0,
+      superShotTimer: 152,
+      facing: "left",
+      mass: 2
+    }
+    players[players.length] = player1;
+
+    window.onload = function () {
+      canvas = document.getElementById("gameCanvas");
+      ctx = canvas.getContext("2d");
+      document.addEventListener("keydown", keyPush);
+      document.addEventListener("keyup", keyPush);
+      setInterval(game, 1000 / 15);
+    }
+    playerPositionx = playerPositiony = 10;
+    gameBoardSize = gameTileCount = 20;
+    applePositionx = applePositiony = 15;
+    xVelocity = yVelocity = 0;
+    trail = [];
+    tail = 1;
+    score = 0;
+    function game() {
+      if (snakeGamePaused !== true) {
+        playerPositionx += xVelocity;
+        playerPositiony += yVelocity;
+        // if the player goes all the way to the left
+        if (playerPositionx < 0) {
+          // wrap player around to the right
+          playerPositionx = gameTileCount - 1;
+        }
+        // if the player goes all the way to the right
+        if (playerPositionx > gameTileCount - 1) {
+          // wrap player around to the left
+          playerPositionx = 0;
+        }
+        //if player goes all the way to the top
+        if (playerPositiony < 0) {
+          // wrap player around to the bottom
+          playerPositiony = gameTileCount - 1;
+        }
+        // if player goes all the way to the bottom
+        if (playerPositiony > gameTileCount - 1) {
+          // wrap player around to the top
+          playerPositiony = 0;
+        }
+        ctx.fillStyle = "black";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        ctx.fillStyle = "lime";
+        for (var i = 0; i < trail.length; i++) {
+          ctx.fillRect(trail[i].x * gameBoardSize, trail[i].y * gameBoardSize, gameBoardSize - 2, gameBoardSize - 2);
+          if (trail[i].x == playerPositionx && trail[i].y == playerPositiony) {
+            playerPositionx = playerPositiony = 10;
+            gameBoardSize = gameTileCount = 20;
+            xVelocity = yVelocity = 0;
+            trail = [];
+            tail = 1;
+            // firebase.database().ref('nothing/snake/high_score').once('value',function(snapshot){
+            //   highScore = snapshot.val();
+            //   user = document.getElementById('username').value;
+            //   if(user === "" || user === null){
+            //     user = "Jeff"
+            //   }
+            //   if(score>highScore){
+            //     firebase.database().ref('nothing/snake').update({
+            //       high_score: score,
+            //       high_score_holder: user
+            //     })
+            //   }
+            // })
+            score = 0;
+            document.getElementById("scoreLabel").innerHTML = "Score: " + score;
+          }
+        }
+        trail.push({ x: playerPositionx, y: playerPositiony });
+        while (trail.length > tail) {
+          trail.shift();
+        }
+
+        if (applePositionx == playerPositionx && applePositiony == playerPositiony) {
+          score++;
+          document.getElementById("scoreLabel").innerHTML = "Score: " + score;
+          tail++;
+          applePositionx = Math.floor(Math.random() * gameTileCount);
+          applePositiony = Math.floor(Math.random() * gameTileCount);
+        }
+        ctx.fillStyle = "red";
+        ctx.fillRect(applePositionx * gameBoardSize, applePositiony * gameBoardSize, gameBoardSize - 2, gameBoardSize - 2);
+        //end of snake game portion of the function
+      }
+    }
+
+    function drawBlocks(players) {
+      ctx.fillStyle = "black";
+      ctx.fillRect(0, 0, canvas.width, canvas.height)
+      for (var p = 0; p < players.length; p++) {
+        // sets the players' heads
+        if (players[p].xVelocity < 0) {
+          players[p].facing = "left"
+          //ctx.fillStyle=players[p].headColor;
+          players[p].headX = players[p].xPosition;
+          players[p].headY = players[p].yPosition;
+          //ctx.fillRect(players[p].headX, players[p].headY, 5, 5)
+        } else if (players[p].xVelocity > 0) {
+          players[p].facing = "right"
+          //ctx.fillStyle=players[p].headColor;
+          players[p].headX = players[p].xPosition + 15;
+          players[p].headY = players[p].yPosition;
+          //ctx.fillRect(players[p].headX, players[p].headY, 5, 5)
+        } else if (players[p].facing === "right") {
+          //ctx.fillStyle=players[p].headColor;
+          players[p].headX = players[p].xPosition + 15;
+          players[p].headY = players[p].yPosition;
+          //ctx.fillRect(players[p].headX, players[p].headY, 5, 5)
+        } else if (players[p].facing === "left") {
+          //ctx.fillStyle=players[p].headColor;
+          players[p].headX = players[p].xPosition;
+          players[p].headY = players[p].yPosition;
+          //ctx.fillRect(players[p].headX, players[p].headY, 5, 5)
+        }
+        ctx.fillStyle = players[p].bodyColor;
+        ctx.fillRect(players[p].xPosition, players[p].yPosition, playerWidth, playerHeight)
+        ctx.fillStyle = players[p].headColor;
+        ctx.fillRect(players[p].headX, players[p].headY, 5, 5)
+      }
+    }
+    function keyPush(evt) {
+      map[evt.keyCode] = evt.type == "keydown";
+      if (snakeGameState === 1) {
+        // left arrow key
+        if (map[37]) {
+          snakeGamePaused = false
+          xVelocity = -1;
+          yVelocity = 0;
+        }
+        // up arrow key
+        if (map[38]) {
+          snakeGamePaused = false
+          xVelocity = 0;
+          yVelocity = -1;
+        }
+        // right arrow key
+        if (map[39]) {
+          snakeGamePaused = false
+          xVelocity = 1;
+          yVelocity = 0;
+        }
+        // down arrow key
+        if (map[40]) {
+          snakeGamePaused = false
+          xVelocity = 0;
+          yVelocity = 1;
+        }
+        if (map[32]) {
+          if (snakeGamePaused === true) {
+            snakeGamePaused = false
+          } else {
+            snakeGamePaused = true
+          }
+        }
+
+        // end of snake game controls
+      } else if (blockGameState === 1) {
+
+        //console.log(map);
+        if (map[38] || map[32]) {
+          // jump player 1
+          players[0].yVelocity = -9
+        }
+        if (map[87]) {
+          // jump player 2
+          players[1].yVelocity = -9
+        }
+        if (map[40]) {
+          // smash down player 1
+          if (players[0].yPosition < canvas.height - playerHeight) {
+            players[0].yVelocity = players[0].yVelocity + 15
+          }
+        }
+        if (map[83]) {
+          // smash down player 2
+          if (players[1].yPosition < canvas.height - playerHeight) {
+            players[1].yVelocity = players[1].yVelocity + 15
+          }
+        }
+        if (map[37]) {
+          // accel left player 1
+          if (players[0].xVelocity > 5) {
+            players[0].xVelocity = 0;
+          }
+          players[0].xVelocity--;
+        }
+        if (map[65]) {
+          // accel left player 2
+          if (players[1].xVelocity > 5) {
+            players[1].xVelocity = 0;
+          }
+          players[1].xVelocity--;
+        }
+        if (map[39]) {
+          // accel right player 1
+          if (players[0].xVelocity < -5) {
+            players[0].xVelocity = 0;
+          }
+          players[0].xVelocity++;
+        }
+        if (map[68]) {
+          // accel right player 2
+          if (players[1].xVelocity < -5) {
+            players[1].xVelocity = 0;
+          }
+          players[1].xVelocity++;
+        }
+        if (map[16]) {
+          // stop horizontal motion both players
+          for (var p = 0; p < players.length; p++) {
+            players[p].xVelocity = 0;
+          }
+        }
+        if (map[18]) {
+          // player 1 shoots
+          shoot(1, 3)
+        }
+        if (map[70]) {
+          // player 2 shoots
+          shoot(2, 3)
+        }
+        if (map[48]) {
+          players[0].score = 0;
+          players[1].score = 0;
+          setStats(player1, player2)
+        }
+        if (map[191]) {
+          // player 1 super shot
+          if (player1.superShotTimer === 0) {
+            shoot(1, 10)
+            player1.superShotTimer = 152
+          }
+        }
+        if (map[69]) {
+          // player 2 super shot
+          if (players[1].superShotTimer === 0) {
+            shoot(2, 10)
+            players[1].superShotTimer = 152
+          }
+        }
+      }
+    }
+    function setStats(player1, player2) {
+      if (player1.superShotTimer > 0) {
+        document.getElementById("player1Stats").innerHTML = "Player 1- Speed: " + Math.floor(Math.sqrt((player1.xVelocity * player1.xVelocity) + (player1.yVelocity * player1.yVelocity))) + " Score: " + player1.score + " Super Shot Timer: " + Math.floor(player1.superShotTimer / 15.2);
+
+      } else {
+        document.getElementById("player1Stats").innerHTML = "Player 1- Speed: " + Math.floor(Math.sqrt((player1.xVelocity * player1.xVelocity) + (player1.yVelocity * player1.yVelocity))) + " Score: " + player1.score + " Super Shot: Ready!";
+
+      }
+      if (player2.superShotTimer > 0) {
+        document.getElementById("player2Stats").innerHTML = "Player 2- Speed: " + Math.floor(Math.sqrt((player2.xVelocity * player2.xVelocity) + (player2.yVelocity * player2.yVelocity))) + " Score: " + player2.score + " Super Shot Timer: " + Math.floor(player2.superShotTimer / 15.2);
+      } else {
+        document.getElementById("player2Stats").innerHTML = "Player 2- Speed: " + Math.floor(Math.sqrt((player2.xVelocity * player2.xVelocity) + (player2.yVelocity * player2.yVelocity))) + " Score: " + player2.score + " Super Shot: Ready!";
+      }
+    }
+    function isColliding(player1, player2) {
+      return (player1.xPosition < player2.xPosition + playerWidth && player1.xPosition + playerWidth > player2.xPosition &&
+        player1.yPosition < player2.yPosition + playerHeight && player1.yPosition + playerHeight > player2.yPosition)
+    }
+    function shoot(player, beamHeight) {
+      if (player === 1) {
+        if (player1.headX > player1.xPosition) {
+          // shoots the lazer from the player to the right end of the screen
+          ctx.fillStyle = player1.lazerColor;
+          ctx.fillRect(player1.headX + 5, player1.headY, canvas.width - player1.headX, beamHeight)
+          if (player1.headX < player2.xPosition && player2.yPosition === player1.headY) {
+            //if player 2 is to the right of player 1 and at the same height
+            if (player2.score > 0) {
+              player2.score--;
+            }
+            player1.score++;
+            setStats(player1, player2)
+          } else if (player1.headX < player2.xPosition && player1.headY + beamHeight > player2.yPosition && player1.headY <= player2.yPosition + playerHeight) {
+            // if player 2 is to the right of player 1 and player1.headX is between the top and bottom of player 2
+            if (player2.score > 0) {
+              player2.score--;
+            }
+            player1.score++;
+            setStats(player1, player2)
+          } else {
+            //shot missed
+            //console.log("missed")
+          }
+        } else {
+          // shoots the lazer from the player to the right end of the screen
+          ctx.fillStyle = player1.lazerColor;
+          ctx.fillRect(0, player1.headY, player1.headX, beamHeight)
+
+          if (player1.headX > player2.xPosition && player2.yPosition === player1.headY) {
+            if (player2.score > 0) {
+              player2.score--;
+            }
+            player1.score++;
+            setStats(player1, player2)
+          } else if (player1.headX > player2.xPosition && player1.headY + beamHeight > player2.yPosition && player1.headY <= player2.yPosition + playerHeight) {
+            if (player2.score > 0) {
+              player2.score--;
+            }
+            player1.score++;
+            setStats(player1, player2)
+          } else {
+            //shot missed
+            //console.log("missed")
+          }
+        }
+      } else if (player === 2) {
+        if (player2.headX > player2.xPosition) {
+          // shoots the lazer from the player to the right end of the screen
+          ctx.fillStyle = player2.lazerColor;
+          ctx.fillRect(player2.headX + 5, player2.headY, canvas.width - player2.headX, beamHeight)
+          if (player2.headX < player1.xPosition && player1.yPosition === player2.headY) {
+            if (player1.score > 0) {
+              player1.score--;
+            }
+            player2.score++;
+            setStats(player1, player2)
+          } else if (player2.headX < player1.xPosition && player2.headY > player1.yPosition + beamHeight && player2.headY <= player1.yPosition + playerHeight) {
+            if (player1.score > 0) {
+              player1.score--;
+            }
+            player2.score++;
+            setStats(player1, player2)
+          } else {
+            // shot missed
+            //console.log("missed")
+          }
+        } else {
+          // shoots the lazer from the player to the right end of the screen
+          ctx.fillStyle = player2.lazerColor
+          ctx.fillRect(0, player2.headY, player2.headX, beamHeight)
+          if (player2.headX > player1.xPosition && player1.yPosition === player2.headY) {
+            if (player1.score > 0) {
+              player1.score--;
+            }
+            player2.score++;
+            setStats(player1, player2)
+          } else if (player2.headX > player1.xPosition && player2.headY > player1.yPosition + beamHeight && player2.headY <= player1.yPosition + playerHeight) {
+            if (player1.score > 0) {
+              player1.score--;
+            }
+            player2.score++;
+            setStats(player1, player2)
+          } else {
+            //shot missed
+            //console.log("missed")
+          }
+        }
+      }
+    }
+  </script>
+  </div>
+</body>
+<script>
+  if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+    document.getElementById("dropdown").style.display = "none";
+    //document.getElementById("mobile-menu").style.display="inline";
+
+  }
+</script>
+<script src="../bottomnav.js"></script>
+
+</html>

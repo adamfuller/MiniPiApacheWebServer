@@ -177,22 +177,38 @@ function draw() {
     background(0);
     //translate(mouseLoc.x, mouseLoc.y, 0)
 
-    for (let p = planets.length - 1; p >= 0; p--) {
+    for (let p = planets.length - 1; p>=0; p--){
         if (planets[p].toBeRemoved) {
-            planets.splice(planets.indexOf(planets[p]), 1);
-            break
+            planets.splice(p, 1);
+        }
+    }
+
+    for (let s = 0; s<suns.length; s++){
+        push()
+        suns[s].show();
+        pop()
+    }
+
+    for (let p = planets.length - 1; p >= 0; p--) {
+        // if (planets[p].toBeRemoved) {
+        //     planets.splice(planets.indexOf(planets[p]), 1);
+        //     break
+        // }
+
+        for (sun in suns){
+            planets[p].applyGravity(sun.mass, sun.pos.x, sun.pos.y, sun.pos.z)
         }
 
-        for (let s = 0; s < suns.length; s++) {
-            push()
-            suns[s].show();
-            pop()
-            planets[p].applyGravity(suns[s].mass, suns[s].pos.x, suns[s].pos.y, suns[s].pos.z);
-        }
-        for (let o = planets.length - 1; o >= 0; o--) {
+        // for (let s = 0; s < suns.length; s++) {
+        //     planets[p].applyGravity(suns[s].mass, suns[s].pos.x, suns[s].pos.y, suns[s].pos.z);
+        // }
+
+        for (let o = p; o >= 0; o--) {
             if (planets[p] !== planets[o]) {
                 planets[p].hasCollided(planets[o]);
-                planets[p].applyGravity(planets[o].mass, planets[o].pos.x, planets[o].pos.y, planets[o].pos.z)
+                planets[p].applyGravity(planets[o].mass, planets[o].pos.x, planets[o].pos.y, planets[o].pos.z);
+                planets[o].hasCollided(planets[p]);
+                planets[o].applyGravity(planets[p].mass, planets[p].pos.x, planets[p].pos.y, planets[p].pos.z)
             }
         }
 

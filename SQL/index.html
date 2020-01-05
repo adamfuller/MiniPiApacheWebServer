@@ -4,7 +4,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <!-- Add the viewport in for proper scaling -->
-    <meta name="viewport" content="width=windowWidth, height=device-height">
+    <!-- <meta name="viewport" content="width=device-width, height=device-height"> -->
     <title>"SQL Tools"</title>
 </head>
 
@@ -20,6 +20,7 @@
     body {
         background-color: #000;
         color: #FFF;
+        margin: 10px;
     }
 
     pre code {
@@ -27,16 +28,16 @@
         white-space: pre;
         font-size: large;
         padding: 10px;
+        width: fit-content;
     }
 
     .dart {
-        visibility: hidden; 
+        visibility: hidden;
         max-height: 0px;
-        max-width: min-content;
     }
 
     .js {
-        visibility: visible; 
+        visibility: visible;
         max-height: max-content;
     }
 </style>
@@ -85,7 +86,7 @@ $.post(
     }
 );
 </code></pre>
-<pre class="dart"><code>// Example (Dart):
+            <pre class="dart"><code>// Example (Dart):
 import "package:http/http.dart" as http;
 import 'dart:convert';
 var body = {
@@ -123,7 +124,7 @@ http.Response res = await http.post(
                     columns - column names and their datatypes
                 </dd>
             </dl>
-<pre class="js"><code>// Example (Javascript with JQuery):
+            <pre class="js"><code>// Example (Javascript with JQuery):
 $.post(
     "http://octalbyte.com/SQL/createTable.php",
     {
@@ -135,7 +136,7 @@ $.post(
     }
 );
 </code></pre>
-<pre class="dart"><code>// Example (Dart):
+            <pre class="dart"><code>// Example (Dart):
 import "package:http/http.dart" as http;
 import 'dart:convert';
 var body = {
@@ -182,13 +183,13 @@ http.Response res = await http.post(
 import "package:http/http.dart" as http;
 import 'dart:convert';
 var body = {
-    "database": this.database ?? database,
-    "user": this.user,
-    "password": this.password,
-    "host": this.host,
-    "table": this.table,
-    "columns": data.keys.toList().fold("", (output, s) => "$output${output != '' ? "," : ""}$s"),
-    "values": data.values.toList().fold("", (output, s) => "$output${output != '' ? "," : ""}${json.encode(s)}"),
+    "database": "example_database",
+    "user": "sample_user",
+    "password": "sample_user_password",
+    "host": "localhost",
+    "table": "table_name",
+    "columns": "col1, col2, col3",
+    "values": "val1, val2, val3",
 };
 
 http.Response res = await http.post(
@@ -196,7 +197,7 @@ http.Response res = await http.post(
     body: json.encode(body),
 );
 </code></pre>
-<pre class="js"><code>// Example (Javascript with JQuery):
+            <pre class="js"><code>// Example (Javascript with JQuery):
 $.post(
     "http://octalbyte.com/SQL/insert.php",
     {
@@ -245,7 +246,7 @@ $.post(
                 </dd>
 
             </dl>
-<pre class="js"><code>// Example (Javascript with JQuery):
+            <pre class="js"><code>// Example (Javascript with JQuery):
 $.post(
     "http://octalbyte.com/SQL/pull.php",
     {
@@ -260,7 +261,7 @@ $.post(
     }
 );
 </code></pre>
-<pre class="dart"><code>// Example (Dart):
+            <pre class="dart"><code>// Example (Dart):
 import "package:http/http.dart" as http;
 import 'dart:convert';
 var body = {
@@ -310,7 +311,7 @@ http.Response res = await http.post(
                 </dd>
 
             </dl>
-<pre class="js"><code>// Example (Javascript with JQuery):
+            <pre class="js"><code>// Example (Javascript with JQuery):
 $.post(
     "http://octalbyte.com/SQL/update.php",
     {
@@ -324,7 +325,7 @@ $.post(
     }
 );
 </code></pre>
-<pre class="dart"><code>// Example (Dart):
+            <pre class="dart"><code>// Example (Dart):
 import "package:http/http.dart" as http;
 import 'dart:convert';
 var body = {
@@ -372,7 +373,7 @@ http.Response res = await http.post(
                 </dd>
 
             </dl>
-<pre class="js"><code>// Example (Javascript with JQuery):
+            <pre class="js"><code>// Example (Javascript with JQuery):
 $.post(
     "http://octalbyte.com/SQL/delete.php",
     {
@@ -385,7 +386,7 @@ $.post(
     }
 );
 </code></pre>
-<pre class="dart"><code>// Example (Dart):
+            <pre class="dart"><code>// Example (Dart):
 import "package:http/http.dart" as http;
 import 'dart:convert';
 var body = {
@@ -408,10 +409,10 @@ http.Response res = await http.post(
 
     <script src="../bottomnav.js"></script>
     <script>
-        function setVisible(classname){
+        function setVisible(classname) {
             var elems = document.getElementsByTagName("pre");
-            for (let i = 0; i<elems.length; i++){
-                if (elems[i].className == classname){
+            for (let i = 0; i < elems.length; i++) {
+                if (elems[i].className == classname) {
                     elems[i].style.maxHeight = "fit-content";
                     elems[i].style.visibility = "visible";
                 } else {
@@ -421,7 +422,7 @@ http.Response res = await http.post(
                 }
             }
             var toggles = document.getElementsByClassName("toggle");
-            for (let i = 0; i<toggles.length; i++){
+            for (let i = 0; i < toggles.length; i++) {
                 toggles[i].checked = toggles[i].id == classname;
             }
         }

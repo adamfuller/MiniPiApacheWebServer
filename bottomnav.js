@@ -29,6 +29,9 @@ window.addEventListener('load', function () {
         // Make it all green
         elem.style.color = "rgb(39, 240, 21)";
 
+        // Put some space on the left
+        if (i==0) elem.style.marginLeft = "10px";
+
         // Add it to the page
         document.lastElementChild.appendChild(elem);
     }
@@ -37,5 +40,6 @@ window.addEventListener('load', function () {
     var lastUpdated = this.document.createElement("p");
     lastUpdated.innerHTML = "Last updated: " + this.document.lastModified;
     lastUpdated.style.color = "grey";
+    lastUpdated.style.marginLeft = "10px";
     document.lastElementChild.appendChild(lastUpdated);
 })

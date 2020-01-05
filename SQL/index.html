@@ -20,12 +20,31 @@
         background-color: #000;
         color: #FFF;
     }
+
+    pre code {
+        display: block;
+        white-space: pre;
+        padding: 10px;
+    }
+
+    .dart {
+        visibility: hidden; 
+        max-height: 0px;
+    }
+
+    .js {
+        visibility: visible; 
+        max-height: fit-content;
+    }
 </style>
 
 <body>
     <h2 style="text-align: center; font-size: larger">
         SQL Tools
     </h2>
+    Language:
+    <input type="radio" class="toggle" id="js" checked="true" onclick="setVisible('js')"> Javascript
+    <input type="radio" class="toggle" id="dart" onclick="setVisible('dart')"> Dart
     <hr>
     <dl>
         <dt style="font-size: large;">
@@ -52,11 +71,33 @@
             Creates a new database of name <code>database</code> when used like the example below
         </dd>
         <dd>
-            Ex:
-            </br>
-            http://octalbyte.com/SQL/createDatabase.php?user=<code>username</code>&psk=<code>password</code>&database=<code>databaseName</code>
+            <pre class="js"><code>// Example (Javascript with JQuery):
+$.post(
+    "http://octalbyte.com/SQL/createDatabase.php",
+    {
+        host: "localhost",
+        database: "example_database",
+        user: "sample_user",
+        password: "sample_user_password",
+    }
+);
+</code></pre>
+<pre class="dart"><code>// Example (Dart):
+import "package:http/http.dart" as http;
+import 'dart:convert';
+var body = {
+    "database": "example_database",
+    "user": "sample_user",
+    "password": "sample_user_password",
+    "host": "localhost",
+    "table": "table_name",
+};
+http.Response res = await http.post(
+    "http://www.octalbyte.com/SQL/createDatabase.php",
+    body: json.encode(body),
+);
+</code></pre>
         </dd>
-        </br>
         <hr>
         <dt style="font-size: large;">
             createTable.php
@@ -79,6 +120,33 @@
                     columns - column names and their datatypes
                 </dd>
             </dl>
+<pre class="js"><code>// Example (Javascript with JQuery):
+$.post(
+    "http://octalbyte.com/SQL/createTable.php",
+    {
+        host: "localhost",
+        database: "example_database",
+        user: "sample_user",
+        password: "sample_user_password",
+        table: "table_name"
+    }
+);
+</code></pre>
+<pre class="dart"><code>// Example (Dart):
+import "package:http/http.dart" as http;
+import 'dart:convert';
+var body = {
+    "database": "example_database",
+    "user": "sample_user",
+    "password": "sample_user_password",
+    "host": "localhost",
+    "table": "table_name",
+};
+http.Response res = await http.post(
+    "http://www.octalbyte.com/SQL/createTable.php",
+    body: json.encode(body),
+);
+</code></pre>
         </dd>
         <hr>
         <dt style="font-size: large;">
@@ -107,7 +175,38 @@
 
 
             </dl>
+            <pre class="dart"><code>// Example (Dart)
+import "package:http/http.dart" as http;
+import 'dart:convert';
+var body = {
+    "database": this.database ?? database,
+    "user": this.user,
+    "password": this.password,
+    "host": this.host,
+    "table": this.table,
+    "columns": data.keys.toList().fold("", (output, s) => "$output${output != '' ? "," : ""}$s"),
+    "values": data.values.toList().fold("", (output, s) => "$output${output != '' ? "," : ""}${json.encode(s)}"),
+};
 
+http.Response res = await http.post(
+    "http://www.octalbyte.com/SQL/insert.php",
+    body: json.encode(body),
+);
+</code></pre>
+<pre class="js"><code>// Example (Javascript with JQuery):
+$.post(
+    "http://octalbyte.com/SQL/insert.php",
+    {
+        host: "localhost",
+        database: "example_database",
+        user: "sample_user",
+        password: "sample_user_password",
+        table: "table_name"
+        columns: "col1, col2, col3",
+        values: "val1, val2, val3",
+    }
+);
+</code></pre>
         </dd>
         <hr>
         <dt style="font-size: large;">
@@ -143,6 +242,36 @@
                 </dd>
 
             </dl>
+<pre class="js"><code>// Example (Javascript with JQuery):
+$.post(
+    "http://octalbyte.com/SQL/pull.php",
+    {
+        host: "localhost",
+        database: "example_database",
+        user: "sample_user",
+        password: "sample_user_password",
+        table: "table_name"
+    },
+    function(result){
+        console.log(result);
+    }
+);
+</code></pre>
+<pre class="dart"><code>// Example (Dart):
+import "package:http/http.dart" as http;
+import 'dart:convert';
+var body = {
+    "database": "example_database",
+    "user": "sample_user",
+    "password": "sample_user_password",
+    "host": "localhost",
+    "table": "table_name",
+};
+http.Response res = await http.post(
+    "http://www.octalbyte.com/SQL/pull.php",
+    body: json.encode(body),
+);
+</code></pre>
         </dd>
         <hr>
         <dt style="font-size: large;">
@@ -178,6 +307,37 @@
                 </dd>
 
             </dl>
+<pre class="js"><code>// Example (Javascript with JQuery):
+$.post(
+    "http://octalbyte.com/SQL/update.php",
+    {
+        host: "localhost",
+        database: "example_database",
+        user: "sample_user",
+        password: "sample_user_password",
+        table: "table_name"
+        set: "col1=val1, col2=val2, col3=val3",
+        where: "col1=value",
+    }
+);
+</code></pre>
+<pre class="dart"><code>// Example (Dart):
+import "package:http/http.dart" as http;
+import 'dart:convert';
+var body = {
+    "database": "example_database",
+    "user": "sample_user",
+    "password": "sample_user_password",
+    "host": "localhost",
+    "table": "table_name",
+    "set": "col1=val1, col2=val2, col3=val3",
+    "where": "col1=value",
+};
+http.Response res = await http.post(
+    "http://www.octalbyte.com/SQL/update.php",
+    body: json.encode(body),
+);
+</code></pre>
         </dd>
         <hr>
         <dt style="font-size: large;">
@@ -209,10 +369,58 @@
                 </dd>
 
             </dl>
+<pre class="js"><code>// Example (Javascript with JQuery):
+$.post(
+    "http://octalbyte.com/SQL/delete.php",
+    {
+        host: "localhost",
+        database: "example_database",
+        user: "sample_user",
+        password: "sample_user_password",
+        table: "table_name"
+        where: "col1=value",
+    }
+);
+</code></pre>
+<pre class="dart"><code>// Example (Dart):
+import "package:http/http.dart" as http;
+import 'dart:convert';
+var body = {
+    "database": "example_database",
+    "user": "sample_user",
+    "password": "sample_user_password",
+    "host": "localhost",
+    "table": "table_name",
+    "where": "col1=value",
+};
+http.Response res = await http.post(
+    "http://www.octalbyte.com/SQL/delete.php",
+    body: json.encode(body),
+);
+</code></pre>
         </dd>
         <hr>
 
     </dl>
 
     <script src="../bottomnav.js"></script>
+    <script>
+        function setVisible(classname){
+            var elems = document.getElementsByTagName("pre");
+            for (let i = 0; i<elems.length; i++){
+                if (elems[i].className == classname){
+                    elems[i].style.maxHeight = "fit-content";
+                    elems[i].style.visibility = "visible";
+                } else {
+                    elems[i].style.maxHeight = "0px";
+                    elems[i].style.visibility = "hidden";
+                    document.getElementById(classname).checked = false;
+                }
+            }
+            var toggles = document.getElementsByClassName("toggle");
+            for (let i = 0; i<toggles.length; i++){
+                toggles[i].checked = toggles[i].id == classname;
+            }
+        }
+    </script>
 </body>

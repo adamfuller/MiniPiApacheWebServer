@@ -12,8 +12,7 @@
     code {
         background-color: #555;
         border-radius: 3px;
-        font-family: courier, monospace;
-        /* font-size: small; */
+        /* font-family: courier, monospace; */
         padding: 0 3px;
     }
 
@@ -25,10 +24,11 @@
 
     pre code {
         display: block;
+        border-radius: 10px;
         white-space: pre;
         font-size: large;
         padding: 10px;
-        width: fit-content;
+        /* width: auto; */
     }
 
     .dart {
@@ -38,7 +38,16 @@
 
     .js {
         visibility: visible;
-        max-height: max-content;
+        max-height: fit-content;
+    }
+
+    dt { 
+        font-size: medium;
+
+    }
+
+    dd {
+        font-size: small;
     }
 </style>
 
@@ -51,7 +60,7 @@
     <input type="radio" class="toggle" id="dart" onclick="setVisible('dart')"> Dart
     <hr>
     <dl>
-        <dt style="font-size: large;">
+        <dt >
             Common
         </dt>
         <dd>
@@ -68,11 +77,11 @@
         </dd>
         </br>
         <hr>
-        <dt style="font-size: large;">
+        <dt >
             createDatabase.php
         </dt>
         <dd>
-            Creates a new database of name <code>database</code> when used like the example below
+            Creates a new database of name <code>example_database</code> when used like the example below
         </dd>
         <dd>
             <pre class="js"><code>// Example (Javascript with JQuery):
@@ -103,11 +112,11 @@ http.Response res = await http.post(
 </code></pre>
         </dd>
         <hr>
-        <dt style="font-size: large;">
+        <dt >
             createTable.php
         </dt>
         <dd>
-            Creates a new table of name <code>tableName</code> in the database <code>databaseName</code>
+            Creates a new table of name <code>table_name</code> in the database <code>example_database</code>
         </dd>
         <dd>
             columns should be formatted: col1 TEXT, col2 NUMERIC, col3 INT
@@ -153,7 +162,7 @@ http.Response res = await http.post(
 </code></pre>
         </dd>
         <hr>
-        <dt style="font-size: large;">
+        <dt >
             insert.php
         </dt>
         <dd>
@@ -213,7 +222,7 @@ $.post(
 </code></pre>
         </dd>
         <hr>
-        <dt style="font-size: large;">
+        <dt >
             pull.php
         </dt>
         <dd>
@@ -242,7 +251,7 @@ $.post(
                     Optional Arguments:
                 </dt>
                 <dd>
-                    where - conditions for a row to be returned if empty all are returned
+                    where - conditions for a row to be returned if empty, all are returned
                 </dd>
 
             </dl>
@@ -278,7 +287,7 @@ http.Response res = await http.post(
 </code></pre>
         </dd>
         <hr>
-        <dt style="font-size: large;">
+        <dt >
             update.php
         </dt>
         <dd>
@@ -344,7 +353,7 @@ http.Response res = await http.post(
 </code></pre>
         </dd>
         <hr>
-        <dt style="font-size: large;">
+        <dt >
             delete.php
         </dt>
         <dd>

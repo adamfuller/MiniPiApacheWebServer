@@ -4,7 +4,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <!-- Add the viewport in for proper scaling -->
-    <meta name="viewport" content="width=device-width, height=device-height">
+    <meta name="viewport" content="width=windowWidth, height=device-height">
     <title>"SQL Tools"</title>
 </head>
 
@@ -13,6 +13,7 @@
         background-color: #555;
         border-radius: 3px;
         font-family: courier, monospace;
+        /* font-size: small; */
         padding: 0 3px;
     }
 
@@ -24,17 +25,19 @@
     pre code {
         display: block;
         white-space: pre;
+        font-size: large;
         padding: 10px;
     }
 
     .dart {
         visibility: hidden; 
         max-height: 0px;
+        max-width: min-content;
     }
 
     .js {
         visibility: visible; 
-        max-height: fit-content;
+        max-height: max-content;
     }
 </style>
 

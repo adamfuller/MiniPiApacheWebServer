@@ -64,7 +64,7 @@
 
 <body>
   <h2 id="welcome">
-    Welcome to Just Another Pi
+    Welcome to OctalByte
   </h2>
   <a class="bigLink" href="/maze">Maze Generator</a></br>
   <button class="dropdown">Features</button>
@@ -87,6 +87,27 @@
   <button class="dropdown">Bugs</button>
   <div class="content">
     • Flicker on collisions (fixed January 4, 2020)
+  </div>
+  </br>
+
+  <a class="bigLink" href="/ml">Neural Network Builder</a></br>
+  <button class="dropdown">Features</button>
+  <div class="content">
+    • Network visualization map</br>
+    • Add/Remove layers</br>
+    • Specify neurons per layer</br>
+    • Customize Training Data</br>
+    • Adjustable learning factor</br>
+    • Multiple activation functions available</br>
+    • Automatic input and output layer sizing</br>
+    • Save progress with JSON representation
+  </div>
+  <button class="dropdown">TODO</button>
+  <div class="content">
+    • Load from JSON</br>
+    • Generate python code for Network</br>
+    • Save network map as an image</br>
+    • API to perform training through request
   </div>
   </br>
 
@@ -171,7 +192,7 @@
   <script>
 
     if (document.domain.includes("octalbyte"))
-      document.getElementById("welcome").innerHTML = "Welcome to OctalByte";
+      document.getElementById("welcome").innerHTML = "Welcome to Just Another Pi";
 
 
     var dropDowns = document.getElementsByClassName("dropdown");

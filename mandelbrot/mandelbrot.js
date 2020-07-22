@@ -45,7 +45,7 @@ function addListeners(){
         }
 
         // wasd keys
-        if (evt.keyCode == 65){
+        if (evt.keyCode == 37 || evt.keyCode == 65){
             //a
             centerX-=100/zoom;
             isChanged=!isChanged;
@@ -55,7 +55,7 @@ function addListeners(){
             centerY-=100/zoom;
             isChanged=!isChanged;
         }
-        if (evt.keyCode == 68){
+        if (evt.keyCode == 39 || evt.keyCode == 68){
             //d
             centerX+=100/zoom;
             isChanged=!isChanged;

@@ -21,6 +21,9 @@ mv MiniPiApacheWebServer/* ./;
 # Move git files not caught by * to html folder
 mv MiniPiApacheWebServer/.git ./;
 mv MiniPiApacheWebServer/.gitignore ./;
+# Change who owns the files so that the pull.php webhook works on pushes
+sudo chgrp -R www-data .;
+sudo chmod -R g+rwx .;
 # TODO Find a way to replace "Options Indexes FollowSymLinks" with "Options FollowSymLinks"
 sed "s/Options Indexes FollowSymLinks/Options FollowSymLinks/g" /etc/apache2/apache2.conf > temp.txt;
 mv /etc/apache2/temp.txt /etc/apache2/apache2.conf;

@@ -23,6 +23,7 @@ This webserver updates automatically whenever a push to this repo is completed.
 
 ## Installation and Setup
 
+### Installing the server
 Clone the repo
 
 `git clone http://www.github.com/adamfuller/MiniPiApacheWebServer`
@@ -34,3 +35,43 @@ Run the setup script (This will clone the repo as the server's files)
 Visit the website
 
 `localhost:80` or `octalbyte.com`
+
+### Allowing remote SSH
+
+The following should be done on the computer you will be using to connect to the web-server.
+
+Generate a new SSH key
+
+`ssh-keygen`
+
+You will be prompted for the file location, press `enter` to use the default
+
+You will be prompted to enter a passphrase to encrypt the key, press `enter` to leave it blank
+
+View the public key
+
+`cat ~/.ssh/id_rsa.pub`
+
+If you get `cat: ~/.ssh/id_rsa.pub: No such file or directory` the key was not generated
+
+Send the key to the device hosting the server, you will need the host's password
+
+`ssh-copy-id {HOST}@{IPADDRESS}`
+
+Now connect to the host
+
+`ssh {HOST}@{IPADDRESS}`
+
+You should now be connected
+
+NOTE: If you are on macOS and this is the first time you have connected, you will be prompted
+
+```
+The authenticity of host '[{HOST}]:{PORT} ([{IPADDRESS}]:{PORT})' can't be established.
+
+ECDSA key fingerprint is SHA256:{SOME_STRING}.
+
+Are you sure you want to continue connecting (yes/no/[fingerprint])? 
+```
+
+Type `yes` then hit `enter` and you should be connected

@@ -1,9 +1,9 @@
-<?php
+<!-- <?php
 $IP="huntspi.hopto.org";
 $DB="test1";
 $TABLE="testTable12";
 $USER="root";
-$PSK="JqFl8497__GcZ-P";
+$PSK="";
 
 $CONN = mysql_connect($IP, $USER, $PSK);
 mysql_select_db($DB, $CONN);
@@ -25,4 +25,4 @@ if ($A === "insert"){
 mysql_query($STMT, $CONN);
 echo $STMT
 
-?>
+?> -->

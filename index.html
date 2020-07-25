@@ -1,59 +1,16 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
 <html xmlns="http://www.w3.org/1999/xhtml">
-
 <style>
-  .dropdown {
-    margin: 5px;
-    content: "    \2193";
-    background-color: lightgray;
-    border-radius: 20px;
-    cursor: pointer;
-    border: none;
-    text-align: left;
-    outline: none;
-    font-size: small;
-  }
-
-  .dropdown:hover {
-    background-color: cyan;
-  }
-
-  .dropdown:after {
-    content: "    \2193";
-  }
-
-  .active:after {
-    content: "    \2191";
-  }
-
-  .content {
-    margin-left: 50px;
-    max-height: 0;
-    overflow: hidden;
-    /* Keep from view when collapsed*/
-    transition: max-height 0.2s ease-out;
-  }
-
-  .bigLink {
-    font-size: large;
-  }
-
-  body {
-    background-color: #000;
-    color: #FFF;
-    margin: 10px;
-  }
-
-  a {
-    color: rgb(39, 240, 21);
-  }
-
-  #welcome {
-    text-align: center;
-    font-size: larger;
-  }
+  .dropdown {margin: 5px;content: "    \2193";background-color: lightgray;border-radius: 20px;cursor: pointer;border: none;text-align: left;outline: none;font-size: small;}
+  .dropdown:hover {background-color: cyan;}
+  .dropdown:after {content: "    \2193";}
+  .active:after {content: "    \2191";}
+  .content {margin-left: 50px;max-height: 0;overflow: hidden;/* Keep from view when collapsed*/transition: max-height 0.2s ease-out;}
+  .bigLink {font-size: large;}
+  body {background-color: #000;color: #FFF;margin: 10px;}
+  a {color: rgb(39, 240, 21);}
+  #welcome {text-align: center;font-size: larger;}
 </style>
-
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <!-- Add the viewport in for proper scaling -->
@@ -62,7 +19,6 @@
   <link rel="shortcut icon" href="octalbyte.ico" type="image/x-icon">
   <title>OctalByte</title>
 </head>
-
 <body>
   <h2 id="welcome">
     Welcome to OctalByte
@@ -76,7 +32,6 @@
     • Viewable solutions
   </div>
   </br>
-
   <a class="bigLink" href="/planets">Planetary Orbit Simulator</a></br>
   <button class="dropdown">Features</button>
   <div class="content">
@@ -90,7 +45,6 @@
     • Flicker on collisions (fixed January 4, 2020)
   </div>
   </br>
-
   <a class="bigLink" href="/ml">Neural Network Builder</a></br>
   <button class="dropdown">Features</button>
   <div class="content">
@@ -111,7 +65,6 @@
     • API to perform training through request
   </div>
   </br>
-
   <a class="bigLink" href="/life">Game of Life</a></br>
   <button class="dropdown">Features</button>
   <div class="content">
@@ -127,7 +80,6 @@
     • Allow scrolling</br>
   </div>
   </br>
-
   <a class="bigLink" href="/mandelbrot">Mandelbrot Explorer</a></br>
   <button class="dropdown">Features</button>
   <div class="content">
@@ -138,7 +90,6 @@
     • Redrawn only on changes</br>
   </div>
   </br>
-
   <!-- <a class="bigLink" href="/blocks">Blocks</a></br> -->
   <a class="bigLink" href="/blobs">Blobs</a></br>
   <button class="dropdown">Features</button>
@@ -188,13 +139,9 @@
   </div>
   </br>
   <a class="bigLink" href="/epoch">Seconds Since Epoch</a></br>
-
   <script>
-
     if (document.domain.includes("justanotherpi"))
       document.getElementById("welcome").innerHTML = "Welcome to Just Another Pi";
-
-
     var dropDowns = document.getElementsByClassName("dropdown");
     for (let i = 0; i < dropDowns.length; i++) {
       dropDowns[i].addEventListener("click", function () {
@@ -205,7 +152,5 @@
     }
   </script>
   <script src="bottomnav.js"></script>
-
 </body>
-
 </html>

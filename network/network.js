@@ -10,7 +10,17 @@ class Network{
     }
 
     buildNeuronOrder(){
-        this.neuronOrder = [];
+        this.neuronOrder = [[]];
+
+        // Find all input neurons
+        for (let i = 0; i<this.neurons.length; i++){
+            if (this.neurons[i].depth == -1 && this.neurons[i].parents.length == 0){
+                // Neuron is part of the input layer
+                this.neurons[i].assignDepth(0);
+                this.neuronOrder[0].push(this.neurons[i]);
+            }
+        }
+        
 
         // Make a copy of the neurons
         let maxDepth = -1;
@@ -18,10 +28,10 @@ class Network{
         // Presize
         this.neuronOrder.length = maxDepth;
         this.neurons.forEach((n) => {
-            if (this.neuronOrder[n.depth+1]){
-                this.neuronOrder[n.depth+1].push(n);
+            if (this.neuronOrder[n.depth]){
+                this.neuronOrder[n.depth].push(n);
             } else {
-                this.neuronOrder[n.depth+1] = [n];
+                this.neuronOrder[n.depth] = [n];
             }
         });
     }
@@ -97,13 +107,15 @@ class Neuron {
         return 0.1;
     }
 
-    constructor(learningRate=0.033) {
+    constructor(learningRate=0.033, id=null) {
 
         this.inputs = [];
         this.parents = [];
         this.children = [];
         this.nextLayerIndices = [];
         this.depth = -1;
+
+        this.id = id || Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
 
         /**
          * Current output of the neuron
@@ -137,7 +149,7 @@ class Neuron {
         this.weights.push(2.0 * Math.random() - 1.0);
         this.weightAdj.push(0.0);
 
-        this.depth = Math.max(parent.depth + 1, this.depth);
+        // this.depth = Math.max(parent.depth + 1, this.depth);
 
         this.parents.push(parent);
         parent.connectChild(this, true);
@@ -155,6 +167,15 @@ class Neuron {
 
         this.children.push(child);
         child.connectParent(this);
+    }
+
+    assignDepth(depth){
+        this.depth = depth;
+        this.children.forEach((n) =>{
+            if (n.depth < 0){
+                n.assignDepth(depth+1);
+            }
+        });
     }
 
     /**
@@ -273,18 +294,26 @@ class Neuron {
 
 }
 
-let n1 = new Neuron(0.1);
-let n2 = new Neuron(0.1);
-let n3 = new Neuron(0.1);
-let n4 = new Neuron(0.1);
-let n5 = new Neuron(0.1);
+let n1 = new Neuron(0.031, "N1");
+let n2 = new Neuron(0.031, "N2");
+let n3 = new Neuron(0.031, "N3");
+let n4 = new Neuron(0.031, "N4");
+let n5 = new Neuron(0.031, "N5");
+let n6 = new Neuron(0.031, "N6");
 
 n1.connectChild(n2);
 n1.connectChild(n3);
 
+// n1.connectChild(n6);
+// n2.connectParent(n6);
+
 n4.connectParent(n2);
 n4.connectParent(n3);
 n5.connectParent(n3);
+
+// Doing this instead of n1->n2, n2->n6 will cause an error
+n6.connectParent(n1);
+n6.connectChild(n2);
 
 let net = new Network();
 
@@ -293,8 +322,11 @@ net.attachNeuron(n2);
 net.attachNeuron(n3);
 net.attachNeuron(n4);
 net.attachNeuron(n5);
+net.attachNeuron(n6);
 
 net.buildNeuronOrder();
+
+net.neurons.forEach((n) => console.log(n.id, n.depth));
 
 console.log("Before Training:");
 console.log("Going to (0,1): " , net.forwardProp([1]));

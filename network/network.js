@@ -5,6 +5,14 @@ class Network{
         this.neuronOrder = [];
     }
 
+    toString(){
+        return JSON.stringify({
+            "neurons": this.neurons.map(n=> n.toJSON()),
+            "neuronOrder": this.neuronOrder.map(na=>na.map((n)=>n.id)),
+        },null, 2);
+        // return this.neurons.map((r,n) => r+=n.toString(),"");
+    }
+
     attachNeuron(neuron){
         this.neurons.push(neuron);
     }
@@ -14,7 +22,7 @@ class Network{
 
         // Find all input neurons
         for (let i = 0; i<this.neurons.length; i++){
-            if (this.neurons[i].depth == -1 && this.neurons[i].parents.length == 0){
+            if (this.neurons[i].depth == -1 && this.neurons[i].isInput){
                 // Neuron is part of the input layer
                 this.neurons[i].assignDepth(0);
                 this.neuronOrder[0].push(this.neurons[i]);
@@ -28,6 +36,8 @@ class Network{
         // Presize
         this.neuronOrder.length = maxDepth;
         this.neurons.forEach((n) => {
+            // Don't re-add the inputs
+            if (n.depth == 0) return;
             if (this.neuronOrder[n.depth]){
                 this.neuronOrder[n.depth].push(n);
             } else {
@@ -51,13 +61,22 @@ class Network{
             this.neuronOrder[i].forEach((n) => n.forwardProp());
         }
 
-        return this.neuronOrder[this.neuronOrder.length-1].map((n) => n.output); 
+        return this.neuronOrder[this.neuronOrder.length-1].reduce((result, n) => {
+            if (n.children.length == 0){
+                result.push(n.output);
+            }
+            return result;
+        }, []); 
     }
 
     backwardProp(expectedOutput){
         let outputLayer = this.neuronOrder[this.neuronOrder.length-1];
 
         for (let i = 0; i<outputLayer.length; i++){
+            // If the element has children it is not an output
+            if (outputLayer[i].children.length > 0){
+                continue;
+            }
             outputLayer[i].backPropOutput(expectedOutput[i]);
         }
 
@@ -107,13 +126,14 @@ class Neuron {
         return 0.1;
     }
 
-    constructor(learningRate=0.033, id=null) {
+    constructor(learningRate=0.033, id=null, isInput=false) {
 
         this.inputs = [];
         this.parents = [];
         this.children = [];
         this.nextLayerIndices = [];
         this.depth = -1;
+        this.isInput=isInput;
 
         this.id = id || Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
 
@@ -140,6 +160,24 @@ class Neuron {
         this.activationFunction = this.leakyRelu;
         this.activationFunctionDerivative = this.leakyReluDerivative;
 
+    }
+
+    toJSON(){
+        return {
+            "id": this.id,
+            "weights": this.weights,
+            "parents": JSON.stringify(this.parents.map((n)=>n.id)),
+            "depth": this.depth,
+        };
+    }
+
+    toString(){
+        return JSON.stringify({
+            "id": this.id,
+            "weights": this.weights,
+            "parents": JSON.stringify(this.parents.map((n)=>n.id)),
+            "depth": this.depth,
+        }, null, 2);
     }
 
     connectParent(parent){
@@ -228,6 +266,8 @@ class Neuron {
         // Adjust the current weights based on the given input
         this.adjustForInput(input);
 
+        // console.log(this.id, "Input:", this.inputs);
+
         // Calculate the output
         for (let i = 0; i < this.inputs.length; i++) {
             this.output += this.inputs[i] * this.weights[i];
@@ -291,29 +331,34 @@ class Neuron {
         // Normalize the weights
         // this.weights = this.weights.map((w) => w / maxWeight);
     }
-
 }
 
-let n1 = new Neuron(0.031, "N1");
+let n1 = new Neuron(0.031, "N1", true);
 let n2 = new Neuron(0.031, "N2");
 let n3 = new Neuron(0.031, "N3");
 let n4 = new Neuron(0.031, "N4");
 let n5 = new Neuron(0.031, "N5");
 let n6 = new Neuron(0.031, "N6");
+let n7 = new Neuron(0.031, "N7", true);
+
+let useLoop = true;
 
 n1.connectChild(n2);
 n1.connectChild(n3);
-
-// n1.connectChild(n6);
-// n2.connectParent(n6);
+n7.connectChild(n3);
 
 n4.connectParent(n2);
 n4.connectParent(n3);
 n5.connectParent(n3);
 
 // Doing this instead of n1->n2, n2->n6 will cause an error
-n6.connectParent(n1);
-n6.connectChild(n2);
+if (useLoop){
+    n6.connectParent(n2);
+    n6.connectChild(n1);
+} else {
+    n6.connectParent(n1);
+    n6.connectChild(n2);
+}
 
 let net = new Network();
 
@@ -323,10 +368,11 @@ net.attachNeuron(n3);
 net.attachNeuron(n4);
 net.attachNeuron(n5);
 net.attachNeuron(n6);
+net.attachNeuron(n7);
 
 net.buildNeuronOrder();
 
-net.neurons.forEach((n) => console.log(n.id, n.depth));
+// net.neurons.forEach((n) => console.log(n.id, n.depth));
 
 console.log("Before Training:");
 console.log("Going to (0,1): " , net.forwardProp([1]));
@@ -343,3 +389,4 @@ for (let i = 0; i<1000; i++){
 console.log("\nAfter Training:");
 console.log("Going to (0,1): " , net.forwardProp([1]));
 console.log("Going to (1,0): " , net.forwardProp([0]));
+console.log(net.toString());

@@ -3,6 +3,8 @@ class Network{
     constructor(){
         this.neurons = [];
         this.neuronOrder = [];
+        // Neuron selected for connections
+        this.selected = null;
     }
 
     toString(){
@@ -17,7 +19,13 @@ class Network{
         this.neurons.push(neuron);
     }
 
+    /**
+     * Build the neuron order, so that forward and backward 
+     * propagation can be performed.
+     */
     buildNeuronOrder(){
+        // This needs to be updated for building with the GUI
+        console.log("Building network order");
         this.neuronOrder = [[]];
 
         // Find all input neurons
@@ -33,6 +41,7 @@ class Network{
         // Make a copy of the neurons
         let maxDepth = -1;
         this.neurons.forEach((n) => maxDepth = Math.max(n.depth, maxDepth));
+        if (maxDepth == -1) maxDepth = 1;
         // Presize
         this.neuronOrder.length = maxDepth;
         this.neurons.forEach((n) => {
@@ -44,6 +53,7 @@ class Network{
                 this.neuronOrder[n.depth] = [n];
             }
         });
+        // console.log(this.neuronOrder);
     }
 
     forwardProp(input){
@@ -85,7 +95,19 @@ class Network{
         }
 
         // Apply all the adjustments
-        this.neuronOrder.forEach((layer) => layer.forEach((n) => n.applyAdjustments()));
+        this.neurons.forEach((n) => n.applyAdjustments());
+    }
+
+    draw(canvasId){
+        let canvas = document.getElementById(canvasId);
+        let ctx = canvas.getContext("2d");
+        ctx.clearRect(0,0, canvas.clientWidth, canvas.clientHeight);
+
+        this.neurons.forEach((n) => n.draw(canvasId, false));
+
+        for (let i = this.neurons.length-1; i>=0;i--){
+            this.neurons[i].drawArrows(canvasId);
+        }
     }
 
 }
@@ -128,6 +150,12 @@ class Neuron {
 
     constructor(learningRate=0.033, id=null, isInput=false) {
 
+        // Location on the canvas, -1 means not placed on a canvas
+        this.x = -1;
+        this.y = -1;
+        this.size = 10;
+        this.color = "blue"; // blue for normal, red for selected
+
         this.inputs = [];
         this.parents = [];
         this.children = [];
@@ -160,6 +188,11 @@ class Neuron {
         this.activationFunction = this.leakyRelu;
         this.activationFunctionDerivative = this.leakyReluDerivative;
 
+    }
+
+    updatePos(x,y){
+        this.x = x;
+        this.y = y;
     }
 
     toJSON(){
@@ -247,8 +280,8 @@ class Neuron {
 
         // Reduce the size of weights
         if (this.inputs.length < this.weights.length) {
-            this.weights = this.weights.slice(0, inputs.length);
-            this.weightAdj = this.weightAdj.slice(0, inputs.length);
+            this.weights = this.weights.slice(0, this.inputs.length);
+            this.weightAdj = this.weightAdj.slice(0, this.inputs.length);
         }
     }
 
@@ -273,8 +306,11 @@ class Neuron {
             this.output += this.inputs[i] * this.weights[i];
         }
 
-        // Apply the activation function and output the result
-        return this.activationFunction(this.output);
+        // Apply the activation function and set the output as the result
+        this.output = this.activationFunction(this.output);
+
+        // return this neurons output
+        return this.output;
     }
 
     /**
@@ -302,9 +338,11 @@ class Neuron {
     backPropHidden() {
         let nextLayerDeltas = [];
         let nextLayerWeights = [];
+
         for (let i = 0; i<this.children.length; i++){
             nextLayerDeltas[i] = this.children[i].delta;
-            nextLayerWeights[i] = this.children[i].weights[this.nextLayerIndices[i]];
+            // +1 for the offset of the bias
+            nextLayerWeights[i] = this.children[i].weights[this.nextLayerIndices[i]+1];
         }
 
         this.delta = 0.0;
@@ -313,6 +351,7 @@ class Neuron {
         for (let i = 0; i < nextLayerDeltas.length; i++) {
             this.delta += nextLayerDeltas[i] * nextLayerWeights[i];
         }
+
         this.delta *= this.activationFunctionDerivative(this.output);
 
         // Assign the adjustments
@@ -326,39 +365,156 @@ class Neuron {
         for (let i = 0; i < this.weights.length; i++) {
             this.weights[i] += this.weightAdj[i] * this.learningRate;
             // if (Math.abs(this.weights[i]) > maxWeight) maxWeight = Math.abs(this.weights[i]);
-            // this.weightAdj[i] = 0.0;
+                // this.weightAdj[i] = 0.0;
         }
         // Normalize the weights
         // this.weights = this.weights.map((w) => w / maxWeight);
     }
+
+    drawArrows(canvasId){
+        let canvas = document.getElementById(canvasId);
+        let ctx = canvas.getContext("2d");
+        var arms = 10;
+        ctx.strokeStyle = "white";
+        ctx.beginPath();
+        this.children.forEach((child)=>{
+            let dx = child.x - this.x;
+            let dy = child.y - this.y;
+            let angle = Math.atan2(dy, dx);
+            let left = angle - Math.PI/6;
+            let right = angle + Math.PI/6;
+
+            ctx.moveTo(this.x, this.y);
+            ctx.lineTo(child.x,child.y);
+            ctx.lineTo(child.x-arms*Math.cos(left), child.y - arms * Math.sin(left));
+            ctx.moveTo(child.x,child.y);
+            ctx.lineTo(child.x-arms*Math.cos(right), child.y - arms * Math.sin(right))
+        });
+        ctx.stroke();
+    }
+
+    draw(canvasId, drawArrows=true){
+        let canvas = document.getElementById(canvasId);
+        let ctx = canvas.getContext("2d");
+        ctx.fillStyle = this.color;
+        // Draw the neuron
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, 2 * Math.PI);
+        ctx.fill();
+        if (drawArrows){
+            // Draw its connections, TODO: make colorful
+            ctx.strokeStyle = "white";
+            this.drawArrows(canvasId);
+        }
+    }
+
 }
 
-let n1 = new Neuron(0.031, "N1", true);
-let n2 = new Neuron(0.031, "N2");
-let n3 = new Neuron(0.031, "N3");
-let n4 = new Neuron(0.031, "N4");
-let n5 = new Neuron(0.031, "N5");
-let n6 = new Neuron(0.031, "N6");
-let n7 = new Neuron(0.031, "N7", true);
+/**
+ * 
+ * @param {canvas} canvasId 
+ * @param {Network} network 
+ */
+function addListeners(canvasId, network) {
+    var canvas = document.getElementById(canvasId);
 
-let useLoop = true;
 
-n1.connectChild(n2);
+    document.addEventListener('keyup', (e) => {
+        if (e.key == "c"){
+            network.neurons = [];
+            network.neuronOrder = [];
+            network.draw(canvasId);
+        } else if (e.key == "b"){
+            network.buildNeuronOrder();
+        }
+    });
+
+    canvas.addEventListener("mousedown", function (evt) {
+        let rect = canvas.getBoundingClientRect();
+        var mouseLoc = {
+            x: evt.clientX - rect.left,
+            y: evt.clientY - rect.top,
+        };
+        // console.log(mouseLoc);
+        
+        for (var index in network.neurons){
+            let n = network.neurons[index];
+            // Check if the neuron was clicked
+            let dist = Math.sqrt((Math.pow(n.x-mouseLoc.x,2)+Math.pow(n.y-mouseLoc.y,2)));
+            // console.log("Distance", dist, n.x, n.y, mouseLoc.x, mouseLoc.y);
+            // Click was within the neuron 
+            if (dist <= n.size){
+                if (n == network.selected){
+                    // If the same one is double clicked, cancel it
+                    network.selected.color = "blue";
+                    // network.selected.draw(canvasId);
+                    network.selected = null;
+                    network.draw(canvasId);
+                    return;
+                }
+                // Neuron was selected
+                if (network.selected){
+                    // Connect it as a child of the currently selected neuron
+                    n.connectParent(network.selected);
+                    // Re-color the selected one
+                    network.selected.color = "blue";
+                    network.selected = null;
+                } else {
+                    // Make it the currently selected neuron
+                    network.selected = n;
+                    n.color = "red";
+                }
+                network.draw(canvasId);
+                return; // Stop looking through
+            }
+        }
+        if (network.selected){
+            // Update the selected to no longer show as selected
+            network.selected.color = "blue";
+            network.draw(canvasId);
+            network.selected = null;
+            // network.selected.draw(canvasId);
+            return;
+        }
+        // Clear the network's selected neuron
+        network.selected = null;
+
+        // Make a new neuron at the given location
+        var neu = new Neuron();
+        neu.updatePos(mouseLoc.x, mouseLoc.y);
+        // console.log("Position:", neu.x, neu.y);
+
+        // Attach the neuron
+        network.attachNeuron(neu);
+
+        // neu.draw(canvasId);
+        network.draw(canvasId);
+    })
+
+}
+
+let lf = 0.133;
+
+// Input neurons
+let n1 = new Neuron(lf, "N1", true);
+let n2 = new Neuron(lf, "N2", true);
+
+// Hidden neurons
+let n3 = new Neuron(lf, "N3");
+let n4 = new Neuron(lf, "N4");
+
+// Output neurons
+let n5 = new Neuron(lf, "N5");
+
+
 n1.connectChild(n3);
-n7.connectChild(n3);
+n1.connectChild(n4);
 
-n4.connectParent(n2);
-n4.connectParent(n3);
-n5.connectParent(n3);
+n2.connectChild(n3);
+n2.connectChild(n4);
 
-// Doing this instead of n1->n2, n2->n6 will cause an error
-if (useLoop){
-    n6.connectParent(n2);
-    n6.connectChild(n1);
-} else {
-    n6.connectParent(n1);
-    n6.connectChild(n2);
-}
+n3.connectChild(n5);
+n4.connectChild(n5);
 
 let net = new Network();
 
@@ -367,26 +523,42 @@ net.attachNeuron(n2);
 net.attachNeuron(n3);
 net.attachNeuron(n4);
 net.attachNeuron(n5);
-net.attachNeuron(n6);
-net.attachNeuron(n7);
 
 net.buildNeuronOrder();
 
 // net.neurons.forEach((n) => console.log(n.id, n.depth));
 
 console.log("Before Training:");
-console.log("Going to (0,1): " , net.forwardProp([1]));
-console.log("Going to (1,0): " , net.forwardProp([0]));
+console.log("(0,0 -> 0): " , net.forwardProp([0,0]));
+console.log("(0,1 -> 1): " , net.forwardProp([0,1]));
+console.log("(1,0 -> 1): " , net.forwardProp([1,0]));
+console.log("(1,1 -> 0): " , net.forwardProp([1,1]));
 
-for (let i = 0; i<1000; i++){
-    net.forwardProp([1]);
-    net.backwardProp([0.0,1.0]);
-    net.forwardProp([0]);
-    net.backwardProp([1.0,0.0]);
-    // console.log(net.forwardProp([0.5]));
+for (let i = 0; i<10000; i++){
+    net.forwardProp([0, 0]);
+    net.backwardProp([0.0]);
+    // 0,1
+    net.forwardProp([0, 1]);
+    net.backwardProp([1.0]);
+    // 1,0
+    net.forwardProp([1, 0]);
+    net.backwardProp([1.0]);
+    // 1,1
+    net.forwardProp([1, 1]);
+    net.backwardProp([0.0]);
+    
+    // if (i%500 == 0){
+    //     console.log("(0,0 -> 0): " , net.forwardProp([0,0]));
+    //     console.log("(0,1 -> 1): " , net.forwardProp([0,1]));
+    //     console.log("(1,0 -> 1): " , net.forwardProp([1,0]));
+    //     console.log("(1,1 -> 0): " , net.forwardProp([1,1]));
+    //     console.log("\n");
+    // }
 }
 
 console.log("\nAfter Training:");
-console.log("Going to (0,1): " , net.forwardProp([1]));
-console.log("Going to (1,0): " , net.forwardProp([0]));
+console.log("(0,0 -> 0): " , net.forwardProp([0,0]));
+console.log("(0,1 -> 1): " , net.forwardProp([0,1]));
+console.log("(1,0 -> 1): " , net.forwardProp([1,0]));
+console.log("(1,1 -> 0): " , net.forwardProp([1,1]));
 console.log(net.toString());

@@ -177,7 +177,6 @@ function setup() {
     perspective();
 
     addListeners();
-    planetsByMap = [];
 
     for (let s = 0; s < numSuns; s++) {
         suns[s] = new Sun(0, 0, 0, 30000000000000);
@@ -185,9 +184,7 @@ function setup() {
 
 
     for (let i = 0; i < num; i++) {
-        planets[i] = new Planet(i * 30 + 30, i * 30 + 30, i * 30 + 30);
-        // provides a velocity necessary for orbit
-        planets[i].vel = velocityForOrbit3D(suns[0], planets[i]);
+        createPlanet(i * 30 + 30, i * 30 + 30, i * 30 + 30, true);
     }
 
 }

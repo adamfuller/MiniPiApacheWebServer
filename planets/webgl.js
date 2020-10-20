@@ -11,6 +11,7 @@ let suns = [];
 var sunMap, earthMap, venusMap, marsMap, jupiterMap, saturnMap, neptuneMap, uranusMap, plutoMap, moonMap;
 
 let solarSystem;
+let planetsByMap;
 
 
 function addListeners() {
@@ -41,7 +42,15 @@ function velocityForOrbit(M, m, r) {
 }
 
 function createPlanet(x, y, z, orbit) {
-    planets.push(new Planet(x, y, z, orbit));
+    let newPlanet = new Planet(x, y, z, orbit);
+
+    for (let i = newPlanet.mapIndex; i<planetsByMap.length; i++){
+        planetsByMap.push([]);
+    }
+
+    // add the new planet to it's map's index
+    planetsByMap[newPlanet.mapIndex].push(newPlanet);
+    planets.push(newPlanet);
 }
 
 function velocityForOrbit3D(sun, planet) {
@@ -209,7 +218,15 @@ function draw() {
             if ((planets[p].pos.x > width * 2 || planets[p].pos.x < 0 - width * 2) && (planets[p].pos.y > height * 2 || planets[p].pos.y < 0 - height * 2) && (planets[p].pos.z > (height + width) || planets[p].pos.z < 0 - (height + width))) {
                 planets[p].toBeRemoved = true;
             }
-            planets[p].show();
+            // planets[p].show();
+        }
+    }
+
+    for (let m = planetsByMap.length; m>=0; m--){
+        let group = planetsByMap[m];
+        texture(solarSystem[m]);
+        for (let p = group.length; p>=0; p--){
+            group[p].show();
         }
     }
 
@@ -232,7 +249,7 @@ class Planet {
         this.spinAxis = [floor(random(2)), 1, floor((random(2)))];
         this.toBeRemoved = false;
         this.explode = false;
-        this.map = solarSystem[floor(random(solarSystem.length))];
+        this.mapIndex = floor(random(solarSystem.length));
         if (orbit) {
             this.vel = velocityForOrbit3D(suns[0], this)
         }
@@ -302,7 +319,7 @@ class Planet {
 
     show() {
         push();
-        texture(this.map);
+        // texture(solarSystem[this.mapIndex]);
         translate(this.pos.x, -this.pos.y, this.pos.z);
         rotate(this.spin * this.spinP, this.spinAxis);
         this.spinP++;

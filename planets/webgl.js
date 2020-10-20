@@ -24,12 +24,12 @@ function addListeners() {
     //     };
     //     //console.log("X: "+mouseLoc.x + " Y: "+ mouseLoc.y);
     // })
-    canvas.addEventListener("mouseout", function (evt) {
-        mouseLoc = {
-            x: 0,
-            y: 0
-        }
-    });
+    // canvas.addEventListener("mouseout", function (evt) {
+    //     mouseLoc = {
+    //         x: 0,
+    //         y: 0
+    //     }
+    // });
 
     canvas.addEventListener("mousedown", function (evt) {
         let rect = canvas.getBoundingClientRect();
@@ -48,6 +48,10 @@ function velocityForOrbit(M, m, r) {
 
 function createPlanet(x, y, z, orbit) {
     let newPlanet = new Planet(x, y, z, orbit);
+
+    if (!planetsByMap || planetsByMap.length == 0){
+        planetsByMap = [];
+    }
 
     for (let i = planetsByMap.length; i<=newPlanet.mapIndex; i++){
         planetsByMap.push([]);
@@ -173,6 +177,7 @@ function setup() {
     perspective();
 
     addListeners();
+    planetsByMap = [];
 
     for (let s = 0; s < numSuns; s++) {
         suns[s] = new Sun(0, 0, 0, 30000000000000);

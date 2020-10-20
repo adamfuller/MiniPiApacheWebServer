@@ -44,7 +44,7 @@ function velocityForOrbit(M, m, r) {
 function createPlanet(x, y, z, orbit) {
     let newPlanet = new Planet(x, y, z, orbit);
 
-    for (let i = newPlanet.mapIndex; i<planetsByMap.length; i++){
+    for (let i = planetsByMap.length; i<=newPlanet.mapIndex; i++){
         planetsByMap.push([]);
     }
 

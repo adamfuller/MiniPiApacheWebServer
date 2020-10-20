@@ -11,7 +11,7 @@ let suns = [];
 var sunMap, earthMap, venusMap, marsMap, jupiterMap, saturnMap, neptuneMap, uranusMap, plutoMap, moonMap;
 
 let solarSystem;
-let planetsByMap;
+let planetsByMap = [];
 
 
 function addListeners() {

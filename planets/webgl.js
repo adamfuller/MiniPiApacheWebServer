@@ -222,13 +222,13 @@ function draw() {
         }
     }
 
-    for (let m = planetsByMap.length; m>=0; m--){
+    for (let m = planetsByMap.length-1; m>=0; m--){
         let group = planetsByMap[m];
         if (!group){
             continue;
         }
         texture(solarSystem[m]);
-        for (let p = group.length; p>=0; p--){
+        for (let p = group.length-1; p>=0; p--){
             group[p].show();
         }
     }

@@ -186,8 +186,11 @@ function draw() {
     background(0);
     //translate(mouseLoc.x, mouseLoc.y, 0)
 
+    // TODO: Filter using array.filter, make toBeRemoved array to cross check
     for (let p = planets.length - 1; p>=0; p--){
         if (planets[p].toBeRemoved) {
+            let tempPos = planetsByMap[planets[p].mapIndex].indexOf(planets[p]);
+            planetsByMap[planets[p].mapIndex].splice(tempPos, 1)
             planets.splice(p, 1);
         }
     }

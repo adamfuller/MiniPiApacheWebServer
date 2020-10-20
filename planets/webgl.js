@@ -16,14 +16,14 @@ let planetsByMap = [];
 
 function addListeners() {
     var canvas = document.getElementById("defaultCanvas0");
-    canvas.addEventListener("mousemove", function (evt) {
-        let rect = canvas.getBoundingClientRect();
-        mouseLoc = {
-            x: evt.clientX - rect.left - width / 2,
-            y: evt.clientY - rect.top - height / 2
-        };
-        //console.log("X: "+mouseLoc.x + " Y: "+ mouseLoc.y);
-    })
+    // canvas.addEventListener("mousemove", function (evt) {
+    //     let rect = canvas.getBoundingClientRect();
+    //     mouseLoc = {
+    //         x: evt.clientX - rect.left - width / 2,
+    //         y: evt.clientY - rect.top - height / 2
+    //     };
+    //     //console.log("X: "+mouseLoc.x + " Y: "+ mouseLoc.y);
+    // })
     canvas.addEventListener("mouseout", function (evt) {
         mouseLoc = {
             x: 0,
@@ -32,6 +32,11 @@ function addListeners() {
     });
 
     canvas.addEventListener("mousedown", function (evt) {
+        let rect = canvas.getBoundingClientRect();
+        mouseLoc = {
+            x: evt.clientX - rect.left - width / 2,
+            y: evt.clientY - rect.top - height / 2
+        };
         createPlanet(mouseLoc.x, -mouseLoc.y, 30, true);
     })
 
@@ -195,9 +200,7 @@ function draw() {
     planets = planets.filter((p) => !p.toBeRemoved);
 
     for (let s = 0; s<suns.length; s++){
-        push()
         suns[s].show();
-        pop()
     }
 
     for (let p = planets.length - 1; p >= 0; p--) {

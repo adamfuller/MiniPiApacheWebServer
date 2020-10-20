@@ -224,6 +224,9 @@ function draw() {
 
     for (let m = planetsByMap.length; m>=0; m--){
         let group = planetsByMap[m];
+        if (!group){
+            continue;
+        }
         texture(solarSystem[m]);
         for (let p = group.length; p>=0; p--){
             group[p].show();
